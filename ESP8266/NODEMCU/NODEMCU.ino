@@ -1,8 +1,11 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <FS.h>
 
 const char* ssid  = "Maron";
 const char* password = "grmaron2";
+
+String indexFile;
 
 ESP8266WebServer server(80);
 
@@ -15,6 +18,21 @@ void inicializaPinos(){
   digitalWrite(portao1, HIGH);
   digitalWrite(portao2, HIGH);
   Serial.println("Pinos iniciados");
+}
+
+void lerArquivos(){
+  SPIFFS.begin();
+
+  if(SPIFFS.exists("/index.html")){
+    Serial.println("index.html encontrado");
+  } else {
+    Serial.println("index.html nao encontrado");
+  }
+
+  File rIndex = SPIFFS.open("/index.html", "r");
+  indexFile = rIndex.readString();
+
+  Serial.println("index.html lido");
 }
 
 void inicializaWifi(){
@@ -31,6 +49,8 @@ void inicializaWifi(){
   Serial.println(ssid);
   Serial.print("IP: ");
   Serial.println(WiFi.localIP());
+
+  server.on("/", handleRoot);
 
   server.on("/gate", handleGate);
 
@@ -52,6 +72,10 @@ void mantemConexoes(){
     Serial.print("IP: ");
     Serial.println(WiFi.localIP());
   }
+}
+
+void handleRoot(){
+  server.send(200, "text/html", indexFile);
 }
 
 void handleGate(){
@@ -96,6 +120,7 @@ void gateSignal(int gate){
 void setup() {
   Serial.begin(9600);
   inicializaPinos();
+  lerArquivos();
   inicializaWifi();
 }
 

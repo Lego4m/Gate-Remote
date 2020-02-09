@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de portões</title>
+    <style>
+        * {
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            outline: 0;
+        }
+
+        html, body {
+            height: 100%;
+            background: rgb(25, 25, 25);
+        }
+
+        #controllers {
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px 30px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        main {
+            margin: auto;
+        }
+
+        main ul {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 40px;
+            list-style: none;
+        }
+
+        .gateItem {
+            display: flex;
+            height: 120px;
+            width: 120px;
+
+            background: black;
+            border-radius: 5px;
+            border: 1px solid white;
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gateItem span {
+            font-size: 14pt;
+            font-family: 'Segoe UI';
+            color: white;
+        }
+
+        @media (max-width: 860px) {
+            main ul {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 515px) {
+            main ul {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="controllers">
+
+        <main>
+            <ul>
+                <button class="gateItem" onclick="gateSignal(1)">
+                    <span>Portão da frente</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(2)">
+                    <span>Portão dos fundos</span>
+                </button>
+            </ul>
+        </main>
+    
+    </div>
+
+    <script>
+        function gateSignal(gate){
+            fetch(`/gate?portao=${gate}`, { method: "GET", mode: "no-cors" });
+        }
+    </script>
+</body>
+</html>
