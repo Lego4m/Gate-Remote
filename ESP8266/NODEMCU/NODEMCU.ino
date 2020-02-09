@@ -70,6 +70,10 @@ void handleGate(){
         message = "Sinal no portao 2";
         gateSignal(portao2);
         break;
+
+      default: 
+        message = "Portao nao definido";
+        break;
     }
     server.send(200, "text/plain", message);
     Serial.println(message);
