@@ -2,8 +2,12 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
-const char* ssid  = "Maron";
-const char* password = "grmaron2";
+const char* ssid  = "";
+const char* password = "";
+
+IPAddress ip(192,168,0,90);
+IPAddress subnet(255,255,255,0);
+IPAddress gateway(192,168,0,1);
 
 String indexFile;
 
@@ -38,6 +42,7 @@ void lerArquivos(){
 void inicializaWifi(){
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+  WiFi.config(ip, gateway, subnet);
 
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
