@@ -6,14 +6,14 @@ const char* password = "grmaron2";
 
 ESP8266WebServer server(80);
 
-const int portao0 = 16; //D0
-const int portao1 = 5; //D1
+const int portao1 = 16; //D0
+const int portao2 = 5; //D1
 
 void inicializaPinos(){
-  pinMode(portao0, OUTPUT);
   pinMode(portao1, OUTPUT);
-  digitalWrite(portao0, HIGH);
+  pinMode(portao2, OUTPUT);
   digitalWrite(portao1, HIGH);
+  digitalWrite(portao2, HIGH);
   Serial.println("Pinos iniciados");
 }
 
@@ -61,14 +61,14 @@ void handleGate(){
     String message;
 
     switch(numeroPortao){
-      case 0:
-        message = "Sinal no portao0";
-        gateSignal(portao0);
+      case 1:
+        message = "Sinal no portao 1";
+        gateSignal(portao1);
         break;
 
-      case 1:
-        message = "Sinal no portao1";
-        gateSignal(portao1);
+      case 2:
+        message = "Sinal no portao 2";
+        gateSignal(portao2);
         break;
     }
     server.send(200, "text/plain", message);
