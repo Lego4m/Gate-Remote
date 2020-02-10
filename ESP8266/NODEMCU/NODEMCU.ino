@@ -13,12 +13,15 @@ String indexFile;
 
 ESP8266WebServer server(80);
 
+const int ledInterno = 2; //D4
 const int portao1 = 16; //D0
 const int portao2 = 5; //D1
 
 void inicializaPinos(){
+  pinMode(ledInterno, OUTPUT);
   pinMode(portao1, OUTPUT);
   pinMode(portao2, OUTPUT);
+  digitalWrite(ledInterno, HIGH);
   digitalWrite(portao1, HIGH);
   digitalWrite(portao2, HIGH);
   Serial.println("Pinos iniciados");
@@ -63,6 +66,15 @@ void inicializaWifi(){
 
   server.begin();
   Serial.println("Server iniciado");
+}
+
+void sinalizarLed(){
+  for (int i = 0; i < 2; i++){
+    digitalWrite(ledInterno, LOW);
+    delay(1000);
+    digitalWrite(ledInterno, HIGH);
+    delay(1000);
+  }
 }
 
 void mantemConexoes(){
@@ -127,6 +139,7 @@ void setup() {
   inicializaPinos();
   lerArquivos();
   inicializaWifi();
+  sinalizarLed();
 }
 
 void loop() {
