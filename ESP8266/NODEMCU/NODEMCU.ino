@@ -14,8 +14,10 @@ String indexFile;
 ESP8266WebServer server(80);
 
 const int ledInterno = 2; //D4
-const int portao1 = 16; //D0
-const int portao2 = 5; //D1
+const int portao1 = 16;   //D0
+const int portao2 = 5;    //D1
+
+// ======================================== Inicialização do ESP
 
 void inicializaPinos(){
   pinMode(ledInterno, OUTPUT);
@@ -24,6 +26,7 @@ void inicializaPinos(){
   digitalWrite(ledInterno, HIGH);
   digitalWrite(portao1, HIGH);
   digitalWrite(portao2, HIGH);
+
   Serial.println("Pinos iniciados");
 }
 
@@ -58,6 +61,8 @@ void inicializaWifi(){
   Serial.print("IP: ");
   Serial.println(WiFi.localIP());
 
+  // Rotas
+
   server.on("/", handleRoot);
 
   server.on("/gate", handleGate);
@@ -65,6 +70,7 @@ void inicializaWifi(){
   server.onNotFound(handleNotFound);
 
   server.begin();
+
   Serial.println("Server iniciado");
 }
 
@@ -77,19 +83,7 @@ void sinalizarLed(){
   }
 }
 
-void mantemConexoes(){
-  if (WiFi.status() != WL_CONNECTED){
-    Serial.println("Conexao perdida!");
-    while (WiFi.status() != WL_CONNECTED){
-      delay(2000);
-      Serial.print(".");
-    }
-    Serial.println("");
-    Serial.println("Conexão reestabelecida");
-    Serial.print("IP: ");
-    Serial.println(WiFi.localIP());
-  }
-}
+// ======================================== Funções do servidor
 
 void handleRoot(){
   server.send(200, "text/html", indexFile);
@@ -125,7 +119,24 @@ void handleGate(){
 }
 
 void handleNotFound(){
-  server.send(404, "text/plain", "Página não encontrada");
+  server.send(404, "text/plain", "Pagina nao encontrada");
+}
+
+// ======================================== Funções
+
+void avisaDesconexao(){
+  if (WiFi.status() != WL_CONNECTED){
+    Serial.println("Conexão perdida!");
+
+    while (WiFi.status() != WL_CONNECTED){
+      delay(2000);
+      Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("Conexão reestabelecida");
+    Serial.print("IP: ");
+    Serial.println(WiFi.localIP());
+  }
 }
 
 void gateSignal(int gate){
@@ -144,5 +155,5 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  mantemConexoes();
+  avisaDesconexao();
 }
