@@ -4,6 +4,7 @@
 
 const char* ssid  = "";
 const char* password = "";
+const String passwordGate = "123abc";
 
 IPAddress ip(192,168,0,90);
 IPAddress subnet(255,255,255,0);
@@ -90,6 +91,12 @@ void handleRoot(){
 }
 
 void handleGate(){
+
+  if (!autenticar()){
+    server.send(200, "text/plain", "Acesso nao autorizado");
+    return;
+  }
+  
   if (server.arg("portao") != ""){
     const int numeroPortao = server.arg("portao").toInt();
 
@@ -143,6 +150,14 @@ void gateSignal(int gate){
   digitalWrite(gate, LOW);
   delay(300);
   digitalWrite(gate, HIGH);
+}
+
+bool autenticar(){
+  if (server.arg("pw") == passwordGate){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void setup() {
