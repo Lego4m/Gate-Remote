@@ -10,11 +10,26 @@
             padding: 0; 
             box-sizing: border-box; 
             outline: 0;
+            font-family: 'Segoe UI';
         }
 
         html, body {
             height: 100%;
             background: rgb(25, 25, 25);
+        }
+
+        #statusBar{
+            width: 100%;
+            text-align: center;
+            background:rgb(60, 60, 60);
+        }
+
+        #statusBar figure{
+            display: inline-block;
+            background: gray;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
         }
 
         #controllers {
@@ -54,7 +69,6 @@
 
         .gateItem span {
             font-size: 14pt;
-            font-family: 'Segoe UI';
             color: white;
         }
 
@@ -72,6 +86,12 @@
     </style>
 </head>
 <body>
+
+    <div id="statusBar">
+        <span id="spanSignalStatus">Esperando</span>
+        <figure id="ballSignalStatus"></figure>
+    </div>
+
     <div id="controllers">
 
         <main>
@@ -89,10 +109,32 @@
     </div>
 
     <script>
+        const statusBall = document.getElementById("ballSignalStatus");
+        const statusSpan = document.getElementById("spanSignalStatus")
         const pw = prompt("Insira a senha");
 
         function gateSignal(gate){
-            fetch(`/gate?portao=${gate}&pw=${pw}`, { method: "GET", mode: "no-cors" });
+            fetch(`/gate?portao=${gate}&pw=${pw}`, { method: "GET" })
+            .then(response =>{ response.text()
+            .then(result =>{
+                changeStatus(result);
+             })});
+        }
+
+        function changeStatus(result){
+            if (result == 0){
+                statusSpan.innerText = "Não autorizado";
+                statusBall.style.background = "red";
+            } else if (result == 1){
+                statusSpan.innerText = "Portão não existe";
+                statusBall.style.background = "orangered";
+            } else if (result == 2){
+                statusSpan.innerText = "Sinal enviado";
+                statusBall.style.background = "green";
+            } else {
+                statusSpan.innerText = "Erro";
+                statusBall.style.background = "red";
+            }
         }
     </script>
 </body>
