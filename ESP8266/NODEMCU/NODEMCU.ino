@@ -92,37 +92,35 @@ void handleRoot(){
 
 void handleGate(){
 
+/*
+  * 0 - Não autorizado
+  * 1 - Portão não existe
+  * 2 - Sinal feito
+*/
+
   if (!autenticar()){
-    server.send(200, "text/plain", "Acesso nao autorizado");
+    server.send(200, "text/plain", "0");
     return;
   }
-  
-  if (server.arg("portao") != ""){
-    const int numeroPortao = server.arg("portao").toInt();
 
-    String message;
+    int gateState = 2;
 
-    switch(numeroPortao){
+    switch(server.arg("portao").toInt()){
       case 1:
-        message = "Sinal no portao 1";
         gateSignal(portao1);
         break;
 
       case 2:
-        message = "Sinal no portao 2";
         gateSignal(portao2);
         break;
 
       default: 
-        message = "Portao nao definido";
+        gateState = 1;
         break;
     }
-    server.send(200, "text/plain", message);
-    Serial.println(message);
 
-  } else {
-    server.send(200, "text/plain", "Portao nao especificado");
-  }
+    server.send(200, "text/plain", String(gateState));
+    Serial.println(gateState);
 }
 
 void handleNotFound(){
@@ -139,10 +137,9 @@ void avisaDesconexao(){
       delay(2000);
       Serial.print(".");
     }
+
     Serial.println("");
-    Serial.println("Conexão reestabelecida");
-    Serial.print("IP: ");
-    Serial.println(WiFi.localIP());
+    Serial.println("Conexão restabelecida");
   }
 }
 
@@ -159,6 +156,8 @@ bool autenticar(){
     return false;
   }
 }
+
+// ======================================== Funções ESP
 
 void setup() {
   Serial.begin(9600);

@@ -89,7 +89,7 @@
     </div>
 
     <script>
-        let pw = prompt("Insira a senha");
+        const pw = prompt("Insira a senha");
 
         function gateSignal(gate){
             fetch(`/gate?portao=${gate}&pw=${pw}`, { method: "GET", mode: "no-cors" });
