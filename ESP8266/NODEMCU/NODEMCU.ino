@@ -17,6 +17,12 @@ ESP8266WebServer server(80);
 const int ledInterno = 2; //D4
 const int portao1 = 16;   //D0
 const int portao2 = 5;    //D1
+const int portao3 = 4;    //D2
+const int portao4 = 0;    //D3
+const int portao5 = 14;   //D5
+const int portao6 = 12;   //D6
+const int portao7 = 13;   //D7
+const int portao8 = 15;   //D8
 
 // ======================================== Inicialização do ESP
 
@@ -24,9 +30,21 @@ void inicializaPinos(){
   pinMode(ledInterno, OUTPUT);
   pinMode(portao1, OUTPUT);
   pinMode(portao2, OUTPUT);
+  pinMode(portao3, OUTPUT);
+  pinMode(portao4, OUTPUT);
+  pinMode(portao5, OUTPUT);
+  pinMode(portao6, OUTPUT);
+  pinMode(portao7, OUTPUT);
+  pinMode(portao8, OUTPUT);
   digitalWrite(ledInterno, HIGH);
   digitalWrite(portao1, HIGH);
   digitalWrite(portao2, HIGH);
+  digitalWrite(portao3, HIGH);
+  digitalWrite(portao4, HIGH);
+  digitalWrite(portao5, HIGH);
+  digitalWrite(portao6, HIGH);
+  digitalWrite(portao7, HIGH);
+  digitalWrite(portao8, HIGH);
 
   Serial.println("Pinos iniciados");
 }
@@ -112,6 +130,30 @@ void handleGate(){
 
       case 2:
         gateSignal(portao2);
+        break;
+
+      case 3:
+        gateSignal(portao3);
+        break;
+
+      case 4:
+        gateSignal(portao4);
+        break;
+
+      case 5:
+        gateSignal(portao5);
+        break;
+
+      case 6:
+        gateSignal(portao6);
+        break;
+
+      case 7:
+        gateSignal(portao7);
+        break;
+
+      case 8:
+        gateSignal(portao8);
         break;
 
       default: 
