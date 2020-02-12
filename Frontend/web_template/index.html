@@ -19,6 +19,7 @@
         }
 
         #statusBar {
+            position: fixed;
             width: 100%;
             text-align: center;
             background:rgb(60, 60, 60);
@@ -52,7 +53,7 @@
 
         main ul {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 40px;
             list-style: none;
         }
@@ -76,15 +77,20 @@
             color: white;
         }
 
-        @media (max-width: 860px) {
+        @media (max-width: 660px) {
             main ul {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 515px) {
+        @media (max-width: 340px) {
             main ul {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
+            }
+
+            .gateItem {
+                width: 140px;
+                height: 140px;
             }
         }
     </style>

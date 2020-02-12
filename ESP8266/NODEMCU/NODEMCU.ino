@@ -53,15 +53,15 @@ void lerArquivos(){
   SPIFFS.begin();
 
   if(SPIFFS.exists("/index.html")){
+    File rIndex = SPIFFS.open("/index.html", "r");
+    indexFile = rIndex.readString();
+    rIndex.close();
     Serial.println("index.html encontrado");
+
   } else {
     Serial.println("index.html nao encontrado");
-  }
 
-  File rIndex = SPIFFS.open("/index.html", "r");
-  indexFile = rIndex.readString();
-
-  Serial.println("index.html lido");
+  } 
 }
 
 void inicializaWifi(){
@@ -76,7 +76,7 @@ void inicializaWifi(){
 
   Serial.println("");
   Serial.print("Conectado na rede: ");
-  Serial.println(ssid);
+  Serial.println(WiFi.SSID());
   Serial.print("IP: ");
   Serial.println(WiFi.localIP());
 
@@ -121,45 +121,45 @@ void handleGate(){
     return;
   }
 
-    int gateState = 2;
+  int gateState = 2;
 
-    switch(server.arg("portao").toInt()){
-      case 1:
-        gateSignal(portao1);
-        break;
+  switch(server.arg("portao").toInt()){
+    case 1:
+      gateSignal(portao1);
+      break;
 
-      case 2:
-        gateSignal(portao2);
-        break;
+    case 2:
+      gateSignal(portao2);
+      break;
 
-      case 3:
-        gateSignal(portao3);
-        break;
+    case 3:
+      gateSignal(portao3);
+      break;
 
-      case 4:
-        gateSignal(portao4);
-        break;
+    case 4:
+      gateSignal(portao4);
+      break;
 
-      case 5:
-        gateSignal(portao5);
-        break;
+    case 5:
+      gateSignal(portao5);
+      break;
 
-      case 6:
-        gateSignal(portao6);
-        break;
+    case 6:
+      gateSignal(portao6);
+      break;
 
-      case 7:
-        gateSignal(portao7);
-        break;
+    case 7:
+      gateSignal(portao7);
+      break;
 
-      case 8:
-        gateSignal(portao8);
-        break;
+    case 8:
+      gateSignal(portao8);
+      break;
 
-      default: 
-        gateState = 1;
-        break;
-    }
+    default: 
+      gateState = 1;
+      break;
+  }
 
     server.send(200, "text/plain", String(gateState));
     Serial.println(gateState);
