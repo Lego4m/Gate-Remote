@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 
 function Settings(){
     const insets = useSafeArea();
     const [pass, setPass] = useState('');
+
+    async function storeData(){
+        try{
+            await AsyncStorage.setItem('pass', pass);
+            Alert.alert('Senha gravada', 'Por favor reinicie o aplicativo!');
+        } catch (e) {
+            console.log(e);
+        }
+    }
     
     return(
         <View style={{flex: 1, marginTop: insets.top, backgroundColor: '#191919', alignItems: "center", justifyContent: 'center'}}>
@@ -16,7 +25,7 @@ function Settings(){
                 onChangeText={setPass}
             />
 
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={storeData}>
                 <Text>Salvar</Text>
             </TouchableOpacity>
 

@@ -11,6 +11,7 @@ IPAddress subnet(255,255,255,0);
 IPAddress gateway(192,168,0,1);
 
 String indexFile;
+String mobileFile;
 
 ESP8266WebServer server(80);
 
@@ -62,6 +63,17 @@ void lerArquivos(){
     Serial.println("index.html nao encontrado");
 
   } 
+
+  if (SPIFFS.exists("/mobile.html")){
+    File rMobile = SPIFFS.open("/mobile.html", "r");
+    mobileFile = rMobile.readString();
+    rMobile.close();
+    Serial.println("mobile.html encontrado");
+
+  } else {
+    Serial.println("mobile.html nao encontrado");
+    
+  }
 }
 
 void inicializaWifi(){
@@ -83,6 +95,8 @@ void inicializaWifi(){
   // Rotas
 
   server.on("/", handleRoot);
+
+  server.on("/mobile", handleMobile);
 
   server.on("/gate", handleGate);
 
@@ -106,6 +120,10 @@ void sinalizarLed(){
 
 void handleRoot(){
   server.send(200, "text/html", indexFile);
+}
+
+void handleMobile(){
+  server.send(200, "text/html", mobileFile);
 }
 
 void handleGate(){

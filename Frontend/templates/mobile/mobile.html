@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de portões</title>
+    <style>
+        * {
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            outline: 0;
+            font-family: 'Segoe UI';
+        }
+
+        html, body {
+            height: 100%;
+            background: rgb(25, 25, 25);
+        }
+
+        #statusBar {
+            position: fixed;
+            width: 100%;
+            text-align: center;
+            background:rgb(60, 60, 60);
+        }
+
+        #statusBar span {
+            color: white;
+        }
+
+        #statusBar figure{
+            display: inline-block;
+            background: gray;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+        }
+
+        #controllers {
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px 30px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        main {
+            margin: auto;
+        }
+
+        main ul {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            list-style: none;
+        }
+
+        .gateItem {
+            display: flex;
+            height: 120px;
+            width: 120px;
+
+            background: black;
+            border-radius: 5px;
+            border: 1px solid white;
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gateItem span {
+            font-size: 14pt;
+            color: white;
+        }
+
+        @media (max-width: 660px) {
+            main ul {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 340px) {
+            main ul {
+                grid-template-columns: 1fr;
+            }
+
+            .gateItem {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="statusBar">
+        <span id="spanSignalStatus">Esperando</span>
+        <figure id="ballSignalStatus"></figure>
+    </div>
+
+    <div id="controllers">
+
+        <main>
+            <ul>
+                <button class="gateItem" onclick="gateSignal(1)">
+                    <span>Portão 1</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(2)">
+                    <span>Portão 2</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(3)">
+                    <span>Portão 3</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(4)">
+                    <span>Portão 4</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(5)">
+                    <span>Portão 5</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(6)">
+                    <span>Portão 6</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(7)">
+                    <span>Portão 7</span>
+                </button>
+
+                <button class="gateItem" onclick="gateSignal(8)">
+                    <span>Portão 8</span>
+                </button>
+            </ul>
+        </main>
+    
+    </div>
+
+    <script>
+        const statusBall = document.getElementById("ballSignalStatus");
+        const statusSpan = document.getElementById("spanSignalStatus")
+        let pw;
+
+        async function gateSignal(gate){
+            changeStatus(144);
+
+            try {
+                const response = await fetch(`/gate?portao=${gate}&pw=${pw}`);
+                const result = await response.text();
+                changeStatus(result);
+            } 
+            catch {
+                changeStatus(408);
+            }
+        }
+
+        function changeStatus(code){
+            if (code == 0){
+                statusSpan.innerText = "Não autorizado";
+                statusBall.style.background = "red";
+            } else if (code == 1){
+                statusSpan.innerText = "Portão não existe";
+                statusBall.style.background = "orangered";
+            } else if (code == 2){
+                statusSpan.innerText = "Sinal enviado";
+                statusBall.style.background = "green";
+            } else if (code == 144){
+                statusSpan.innerText = "Esperando";
+                statusBall.style.background = "gray"; 
+            } else if (code == 408){
+                statusSpan.innerText = "Tempo esgotado";
+                statusBall.style.background = "red";
+            } else {
+                statusSpan.innerText = "Erro";
+                statusBall.style.background = "red";
+            }
+        }
+    </script>
+</body>
+</html>
