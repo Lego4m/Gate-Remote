@@ -9,12 +9,17 @@ function Home(){
     let webview;
 
     async function retrieveData() {
-        try {
-            setPass(await AsyncStorage.getItem('pass'));
+        let localPass;
 
-            if (pass === null){
+        try {
+            localPass = await AsyncStorage.getItem('pass');
+
+            if (localPass === null){
                 setPass('admin');
+            } else {
+                setPass(localPass);
             }
+
         } catch (e) {
             console.log(e);
         }
@@ -26,7 +31,7 @@ function Home(){
     
 
     return(
-        <View style={{flex: 1, marginTop: insets.top, backgroundColor: '#191919'}}>
+        <View style={{flex: 1, paddingTop: insets.top, backgroundColor: '#191919'}}>
             <WebView source={{uri: "http://192.168.0.90/mobile"}} ref={ref => (webview = ref)} onLoadEnd={retrieveData} />
         </View>
     );

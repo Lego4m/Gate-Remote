@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, AsyncStorage, Alert } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, AsyncStorage, Alert, Keyboard } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 
 function Settings(){
@@ -10,13 +10,25 @@ function Settings(){
         try{
             await AsyncStorage.setItem('pass', pass);
             Alert.alert('Senha gravada', 'Por favor reinicie o aplicativo!');
+            Keyboard.dismiss();
         } catch (e) {
             console.log(e);
         }
     }
     
     return(
-        <View style={{flex: 1, marginTop: insets.top, backgroundColor: '#191919', alignItems: "center", justifyContent: 'center'}}>
+        <>
+        <View 
+            style={{
+                flex: 1, 
+                backgroundColor: '#191919', 
+                paddingTop: insets.top,
+                paddingBottom: 20,
+                alignItems: "center", 
+                justifyContent: 'center', 
+            }}
+        >
+
             <TextInput 
                 style={styles.input}
                 secureTextEntry={true}
@@ -25,33 +37,48 @@ function Settings(){
                 onChangeText={setPass}
             />
 
-            <TouchableOpacity style={styles.botao} onPress={storeData}>
-                <Text>Salvar</Text>
+            <TouchableOpacity style={styles.button} onPress={storeData}>
+                <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
 
         </View>
+
+        <Text style={styles.creditsText}>Criado por Leonardo A. Maron</Text>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
-        width: 200,
-        height: 41,
+        width: '70%',
+        padding: 10,
+        marginBottom: 15,
+        height: 40,
         textAlign: 'center',
-        borderRadius: 5,
+        borderRadius: 7,
+        fontSize: 14,
     },
 
-    botao: {
-        marginTop: 15,
-        backgroundColor: 'white',
-        width: 140,
+    button: {
+        backgroundColor: '#35AAFF',
+        width: '45%',
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'black',
-        borderWidth: 2,
-        borderRadius: 5,
+        borderRadius: 7,
+    },
+
+    buttonText: {
+        color: '#FFF',
+        fontSize: 16,
+    },
+
+    creditsText: {
+        backgroundColor: '#191919', 
+        color: 'white', 
+        textAlign: 'center',
+        fontSize: 12,
     }
 });
 
