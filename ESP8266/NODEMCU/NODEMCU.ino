@@ -189,23 +189,9 @@ void handleNotFound(){
 
 // ======================================== Funções
 
-void avisaDesconexao(){
-  if (WiFi.status() != WL_CONNECTED){
-    Serial.println("Conexão perdida!");
-
-    while (WiFi.status() != WL_CONNECTED){
-      delay(2000);
-      Serial.print(".");
-    }
-
-    Serial.println("");
-    Serial.println("Conexão restabelecida");
-  }
-}
-
 void gateSignal(int gate){
   digitalWrite(gate, LOW);
-  delay(300);
+  delay(200);
   digitalWrite(gate, HIGH);
 }
 
@@ -229,5 +215,4 @@ void setup() {
 
 void loop() {
   server.handleClient();
-  avisaDesconexao();
 }
