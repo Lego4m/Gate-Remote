@@ -38,6 +38,10 @@ Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
 Note que o IP padrão da WebView (Frontend/mobile/src/pages/Home.js, line 35) é 192.168.0.90
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/Leogamermmmm/esp8266-gate-solo/master/project-preview.gif" width="550">
+</p>
+
 ## Autor
-| [<img src="https://avatars0.githubusercontent.com/u/39628486?s=460&v=4" width=115><br>](https://github.com/Leogamermmmm) |
+| [<img src="https://avatars0.githubusercontent.com/u/39628486?s=460&v=4" width=115><br><sub>Leonardo</sub>](https://github.com/Leogamermmmm) |
 | :---: |
