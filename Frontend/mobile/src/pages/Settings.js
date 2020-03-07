@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, AsyncStorage, Alert, Keyboard } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { storePasswordInAsyncStorage } from '../services/pw';
 
 function Settings(){
     const insets = useSafeArea();
@@ -8,8 +9,7 @@ function Settings(){
 
     async function storeData(){
         try{
-            await AsyncStorage.setItem('pass', pass);
-            Alert.alert('Senha gravada', 'Por favor reinicie o aplicativo!');
+            await storePasswordInAsyncStorage(pass);
             Keyboard.dismiss();
         } catch (e) {
             console.log(e);
