@@ -134,12 +134,17 @@ void handleGate(){
   * 2 - Sinal feito
 */
 
-  if (!autenticar()){
-    server.send(200, "text/plain", "0");
+  if (!isAuthenticated()){
+    server.send(401, "text/plain", "0");  // Não autenticado
     return;
-  }
 
-  int gateState = 2;
+  } else if (!gateExists()) {
+    server.send(404, "text/plain", "1");  // Portão não existe
+    return;
+
+  } else {
+    server.send(200, "text/plain", "2");  // Sinal feito
+  }
 
   switch(server.arg("portao").toInt()){
     case 1:
@@ -173,14 +178,7 @@ void handleGate(){
     case 8:
       gateSignal(portao8);
       break;
-
-    default: 
-      gateState = 1;
-      break;
   }
-
-    server.send(200, "text/plain", String(gateState));
-    Serial.println(gateState);
 }
 
 void handleNotFound(){
@@ -195,8 +193,16 @@ void gateSignal(int gate){
   digitalWrite(gate, HIGH);
 }
 
-bool autenticar(){
+bool isAuthenticated(){
   if (server.arg("pw") == passwordGate){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool gateExists(){
+  if (server.arg("portao").toInt() >= 1 && server.arg("portao").toInt() <= 8){
     return true;
   } else {
     return false;
