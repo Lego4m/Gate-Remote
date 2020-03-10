@@ -151,7 +151,7 @@
             changeStatus(144);
 
             try {
-                const response = await fetch(`/gate?portao=${gate}&pw=${pw}`);
+                const response = await fetch(`/gate?portao=${gate}&pw=${pw}`, { method: "POST" });
                 const result = await response.text();
                 changeStatus(result);
             } 

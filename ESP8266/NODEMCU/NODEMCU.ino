@@ -94,11 +94,11 @@ void inicializaWifi(){
 
   // Rotas
 
-  server.on("/", handleRoot);
+  server.on("/", HTTP_GET, handleRoot);
 
-  server.on("/mobile", handleMobile);
+  server.on("/mobile", HTTP_GET, handleMobile);
 
-  server.on("/gate", handleGate);
+  server.on("/gate", HTTP_POST, handleGate);
 
   server.onNotFound(handleNotFound);
 
