@@ -19,12 +19,11 @@ Abra o sketch referente a sua placa em ESP8266/
 
 * Mude a linha 5 e 6 para o nome e senha de sua rede WiFi;
 * Mude a linha 7 para a senha que será utilizada para autenticação;
-* Mude a linha 9, 10 e 11 para as configurações de IP;
+* Mude a linha 8 para os portões que serão utilizados;
+* Mude a linha 10, 11, 12 para as configurações de IP;
 ***
 
-Copie os arquivos index.html e mobile.html (Frotend/templates/) para dentro de ESP8266/suaplaca/data, e edite-os para se adequar à suas necessidades.
-
-Obs: A diferença entre os arquivos index.html e mobile.html é na linha 148.
+Copie o arquivo "Frontend/web/index.html" para dentro de "ESP8266/suaplaca/data"
 
 * Use a ferramenta ESP8266 sketch Data Upload;
 * Logo após, grave o sketch no seu ESP8266;
@@ -32,11 +31,11 @@ Obs: A diferença entre os arquivos index.html e mobile.html é na linha 148.
 
 #### Mobile
 
-O projeto é construído com o EXPO.
+O aplicativo é construído com o EXPO.
 
 Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
-Note que o IP padrão da WebView (Frontend/mobile/src/pages/Home.js, line 35) é 192.168.0.90
+Obs: O IP padrão do Axios (Frontend/mobile/src/services/axios.js, line 4) é 192.168.0.90
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/Leogamermmmm/esp8266-gate-solo/master/project-preview.gif" width="550">

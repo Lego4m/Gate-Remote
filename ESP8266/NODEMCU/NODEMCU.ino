@@ -5,13 +5,13 @@
 const char* ssid  = "";
 const char* password = "";
 const String passwordGate = "123abc";
+const String gateInfos = "[\"Portão 1\", \"Portão 2\", \"Portão 3\", \"Portão 4\", \"Portão 5\", \"Portão 6\", \"Portão 7\", \"Portão 8\"]";
 
 IPAddress ip(192,168,0,90);
 IPAddress subnet(255,255,255,0);
 IPAddress gateway(192,168,0,1);
 
 String indexFile;
-String mobileFile;
 
 ESP8266WebServer server(80);
 
@@ -40,17 +40,6 @@ void readFiles(){
     Serial.println("index.html nao encontrado");
 
   } 
-
-  if (SPIFFS.exists("/mobile.html")){
-    File rMobile = SPIFFS.open("/mobile.html", "r");
-    mobileFile = rMobile.readString();
-    rMobile.close();
-    Serial.println("mobile.html encontrado");
-
-  } else {
-    Serial.println("mobile.html nao encontrado");
-    
-  }
 
   SPIFFS.end();
 }
@@ -98,7 +87,7 @@ void initializeWiFi(){
 void initializeWebServer(){
   server.on("/", HTTP_GET, handleRoot);
 
-  server.on("/mobile", HTTP_GET, handleMobile);
+  server.on("/gateInfos", HTTP_GET, handleGateInfos);
 
   server.on("/gate", HTTP_POST, handleGate);
 
@@ -124,8 +113,8 @@ void handleRoot(){
   server.send(200, "text/html", indexFile);
 }
 
-void handleMobile(){
-  server.send(200, "text/html", mobileFile);
+void handleGateInfos(){
+  server.send(200, "application/json", gateInfos);
 }
 
 void handleGate(){

@@ -106,37 +106,6 @@
 
         <main>
             <ul>
-                <button class="gateItem" onclick="gateSignal(1)">
-                    <span>Portão 1</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(2)">
-                    <span>Portão 2</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(3)">
-                    <span>Portão 3</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(4)">
-                    <span>Portão 4</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(5)">
-                    <span>Portão 5</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(6)">
-                    <span>Portão 6</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(7)">
-                    <span>Portão 7</span>
-                </button>
-
-                <button class="gateItem" onclick="gateSignal(8)">
-                    <span>Portão 8</span>
-                </button>
             </ul>
         </main>
     
@@ -144,8 +113,33 @@
 
     <script>
         const statusBall = document.getElementById("ballSignalStatus");
-        const statusSpan = document.getElementById("spanSignalStatus")
+        const statusSpan = document.getElementById("spanSignalStatus");
+        const controllersList = document.getElementsByTagName('ul')[0];
         const pw = prompt("Insira a senha");
+
+        window.onload = retrieveGates();
+
+        async function retrieveGates(){
+            try {
+                const response = await fetch(`/gateInfos`);
+                const result = await response.json();
+
+                result.map((gateName, index) => {
+                    const gateItem = document.createElement('button');
+                    const span = document.createElement('span');
+
+                    gateItem.setAttribute('class', "gateItem");
+                    gateItem.setAttribute('onclick', `gateSignal(${index + 1})`);
+                    span.innerText = gateName;
+
+                    gateItem.appendChild(span);
+                    controllersList.appendChild(gateItem);
+                });
+            }
+            catch {
+                changeStatus(408);
+            }
+        }
 
         async function gateSignal(gate){
             changeStatus(144);
@@ -162,10 +156,10 @@
 
         function changeStatus(code){
             if (code == 0){
-                statusSpan.innerText = "Não autorizado";
+                statusSpan.innerText = "Senha incorreta";
                 statusBall.style.background = "red";
             } else if (code == 1){
-                statusSpan.innerText = "Portão não existe";
+                statusSpan.innerText = "Portão inexistente";
                 statusBall.style.background = "orangered";
             } else if (code == 2){
                 statusSpan.innerText = "Sinal enviado";
