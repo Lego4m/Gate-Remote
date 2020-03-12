@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { storePasswordInAsyncStorage } from '../services/pw';
+import { storeInAsyncStorage } from '../services/AsyncStorageService';
 
 function Settings(){
     const insets = useSafeArea();
     const [pass, setPass] = useState('');
 
     async function storeData(){
-        try{
-            await storePasswordInAsyncStorage(pass);
-            Keyboard.dismiss();
-        } catch (e) {
-            console.log(e);
-        }
+        await storeInAsyncStorage('pass', pass);
+        Keyboard.dismiss();
     }
     
     return(

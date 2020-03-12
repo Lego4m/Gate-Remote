@@ -2,29 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { getPasswordFromAsyncStorage, emitter } from '../services/pw';
+import { getFromAsyncStorage, emitter } from '../services/AsyncStorageService';
 
 function Home(){
     const insets = useSafeArea();
     const [pass, setPass] = useState('');
-    emitter.on('newPass', retrieveData);
     let webview;
 
+    emitter.on('pass', retrieveData);
+
     async function retrieveData() {
-        let localPass;
-
-        try {
-            localPass = await getPasswordFromAsyncStorage();
-
-            if (localPass === null){
-                setPass('admin');
-            } else {
-                setPass(localPass);
-            }
-
-        } catch (e) {
-            console.log(e);
-        }
+        setPass(await getFromAsyncStorage('pass'))
     }
     
     useEffect(() => {
