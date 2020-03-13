@@ -3,8 +3,8 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import Home from './pages/Home';
-import Settings from './pages/Settings';
+import Home from './pages/Home/index';
+import Settings from './pages/Settings/index';
 
 const Routes = createAppContainer(
     createBottomTabNavigator({

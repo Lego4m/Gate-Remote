@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { storeInAsyncStorage } from '../services/AsyncStorageService';
+import { storeInAsyncStorage } from '../../services/AsyncStorageService';
+import styles from "./styles";
 
 function Settings(){
     const insets = useSafeArea();
@@ -33,7 +34,7 @@ function Settings(){
                 onChangeText={setPass}
             />
 
-            <TouchableOpacity style={styles.button} onPress={storeData}>
+            <TouchableOpacity style={styles.button} onPress={storeData} activeOpacity={0.8}>
                 <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
 
@@ -43,39 +44,5 @@ function Settings(){
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: 'white',
-        width: '70%',
-        padding: 10,
-        marginBottom: 15,
-        height: 40,
-        textAlign: 'center',
-        borderRadius: 7,
-        fontSize: 14,
-    },
-
-    button: {
-        backgroundColor: '#35AAFF',
-        width: '45%',
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 7,
-    },
-
-    buttonText: {
-        color: '#FFF',
-        fontSize: 16,
-    },
-
-    creditsText: {
-        backgroundColor: '#191919', 
-        color: 'white', 
-        textAlign: 'center',
-        fontSize: 12,
-    }
-});
 
 export default Settings;

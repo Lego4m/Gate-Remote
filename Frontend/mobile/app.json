@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Controle de portões",
+    "name": "Gate Remote",
     "slug": "GateRemote",
     "privacy": "public",
     "sdkVersion": "36.0.0",

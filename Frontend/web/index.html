@@ -31,7 +31,7 @@
 
         #statusBar figure{
             display: inline-block;
-            background: gray;
+            background: #808080;
             border-radius: 50%;
             width: 10px;
             height: 10px;
@@ -157,22 +157,22 @@
         function changeStatus(code){
             if (code == 0){
                 statusSpan.innerText = "Senha incorreta";
-                statusBall.style.background = "red";
+                statusBall.style.background = "#ff0000";
             } else if (code == 1){
                 statusSpan.innerText = "Portão inexistente";
-                statusBall.style.background = "orangered";
+                statusBall.style.background = "#ff4d00";
             } else if (code == 2){
                 statusSpan.innerText = "Sinal enviado";
-                statusBall.style.background = "green";
+                statusBall.style.background = "#04ff00";
             } else if (code == 144){
                 statusSpan.innerText = "Esperando";
-                statusBall.style.background = "gray"; 
+                statusBall.style.background = "#808080"; 
             } else if (code == 408){
                 statusSpan.innerText = "Tempo esgotado";
-                statusBall.style.background = "red";
+                statusBall.style.background = "#ff0000";
             } else {
                 statusSpan.innerText = "Erro";
-                statusBall.style.background = "red";
+                statusBall.style.background = "#ff0000";
             }
         }
     </script>
