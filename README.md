@@ -19,12 +19,13 @@ Abra o sketch referente a sua placa em ESP8266/
 
 * Mude a linha 5 e 6 para o nome e senha de sua rede WiFi;
 * Mude a linha 7 para a senha que será utilizada para autenticação;
-* Mude a linha 8 para os portões que serão utilizados;
+* Mude a linha 8 para os portões que serão utilizados (Lembre-se de alterar a função gateExists(int gateID);
 * Mude a linha 10, 11, 12 para as configurações de IP;
 ***
 
-Copie o arquivo "Frontend/web/index.html" para dentro de "ESP8266/suaplaca/data"
-Obs: Caso precise do mínimo uso de espaço possível, use o [HTML Compressor](https://htmlcompressor.com/compressor/)
+Copie o arquivo "Frontend/web/index.html" para dentro de "ESP8266/suaplaca/data".
+
+Obs: Caso precise do mínimo uso de espaço possível, use o [HTML Compressor](https://htmlcompressor.com/compressor/).
 
 * Use a ferramenta ESP8266 sketch Data Upload;
 * Logo após, grave o sketch no seu ESP8266;
@@ -36,7 +37,7 @@ O aplicativo é construído com o EXPO.
 
 Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
-Obs: O IP padrão do Axios (Frontend/mobile/src/services/axios.js, line 4) é 192.168.0.90
+Obs: O **IP** padrão do Axios (Frontend/mobile/src/services/axios.js, line 4) é 192.168.0.90
 
 <p align="center">
     <img src="project-preview.gif" width="550">
