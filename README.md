@@ -24,6 +24,7 @@ Abra o sketch referente a sua placa em ESP8266/
 ***
 
 Copie o arquivo "Frontend/web/index.html" para dentro de "ESP8266/suaplaca/data"
+Obs: Caso precise do mínimo uso de espaço possível, use o [HTML Compressor](https://htmlcompressor.com/compressor/)
 
 * Use a ferramenta ESP8266 sketch Data Upload;
 * Logo após, grave o sketch no seu ESP8266;
@@ -38,7 +39,7 @@ Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 Obs: O IP padrão do Axios (Frontend/mobile/src/services/axios.js, line 4) é 192.168.0.90
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Leogamermmmm/esp8266-gate-solo/master/project-preview.gif" width="550">
+    <img src="project-preview.gif" width="550">
 </p>
 
 ## Autor

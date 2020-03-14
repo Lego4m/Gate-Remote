@@ -34,11 +34,8 @@ void readFiles(){
     File rIndex = SPIFFS.open("/index.html", "r");
     indexFile = rIndex.readString();
     rIndex.close();
-    Serial.println("index.html encontrado");
-
   } else {
-    Serial.println("index.html nao encontrado");
-
+    indexFile = "Could not find index.html";
   } 
 
   SPIFFS.end();
@@ -63,8 +60,6 @@ void initializePins(){
   digitalWrite(gate6, HIGH);
   digitalWrite(gate7, HIGH);
   digitalWrite(gate8, HIGH);
-
-  Serial.println("Pinos iniciados");
 }
 
 void initializeWiFi(){
@@ -73,15 +68,11 @@ void initializeWiFi(){
   WiFi.config(ip, gateway, subnet);
 
   while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+    digitalWrite(builtInLed, LOW);
+    delay(250);
+    digitalWrite(builtInLed, HIGH);
+    delay(250);
   }
-
-  Serial.println("");
-  Serial.print("Conectado na rede: ");
-  Serial.println(WiFi.SSID());
-  Serial.print("IP: ");
-  Serial.println(WiFi.localIP());
 }
 
 void initializeWebServer(){
@@ -94,17 +85,10 @@ void initializeWebServer(){
   server.onNotFound(handleNotFound);
 
   server.begin();
-
-  Serial.println("Server iniciado");
 }
 
 void sinalize(){
-  for (int i = 0; i < 2; i++){
-    digitalWrite(builtInLed, LOW);
-    delay(1000);
-    digitalWrite(builtInLed, HIGH);
-    delay(1000);
-  }
+  digitalWrite(builtInLed, LOW);
 }
 
 // ======================================== Funções do servidor
@@ -173,16 +157,10 @@ void handleGate(){
 }
 
 void handleNotFound(){
-  server.send(404, "text/plain", "Pagina nao encontrada");
+  server.send(404, "text/plain", "404");
 }
 
 // ======================================== Funções
-
-void gateSignal(int gate){
-  digitalWrite(gate, LOW);
-  delay(200);
-  digitalWrite(gate, HIGH);
-}
 
 bool isAuthenticated(String pw){
   if (pw == passwordGate){
@@ -200,10 +178,15 @@ bool gateExists(int gateID){
   }
 }
 
+void gateSignal(int gate){
+  digitalWrite(gate, LOW);
+  delay(200);
+  digitalWrite(gate, HIGH);
+}
+
 // ======================================== Funções ESP
 
 void setup() {
-  Serial.begin(9600);
   readFiles();
   initializePins();
   initializeWiFi();
