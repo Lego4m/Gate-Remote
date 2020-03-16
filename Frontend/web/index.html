@@ -43,15 +43,11 @@
             padding: 60px 30px;
 
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
         }
 
-        main {
-            margin: auto;
-        }
-
-        main ul {
+        #controllers ul {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 40px;
@@ -78,13 +74,13 @@
         }
 
         @media (max-width: 660px) {
-            main ul {
+            #controllers ul {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 340px) {
-            main ul {
+            #controllers ul {
                 grid-template-columns: 1fr;
             }
 
@@ -103,12 +99,8 @@
     </div>
 
     <div id="controllers">
-
-        <main>
-            <ul>
-            </ul>
-        </main>
-    
+        <ul>
+        </ul>
     </div>
 
     <script>

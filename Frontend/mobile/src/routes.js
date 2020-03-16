@@ -32,6 +32,7 @@ const Routes = createAppContainer(
             showIcon: true,
             style: {
                 backgroundColor: 'black',
+                borderTopWidth: 0,
             },
         },
     })
