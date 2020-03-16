@@ -112,25 +112,26 @@
     </div>
 
     <script>
-        const statusBall = document.getElementById("ballSignalStatus");
-        const statusSpan = document.getElementById("spanSignalStatus");
+        const statusBall = document.getElementById('ballSignalStatus');
+        const statusSpan = document.getElementById('spanSignalStatus');
         const controllersList = document.getElementsByTagName('ul')[0];
-        const pw = prompt("Insira a senha");
+        const pw = prompt('Insira a senha');
 
         window.onload = retrieveGates();
 
         async function retrieveGates(){
+            controllersList.innerHTML = '';
             try {
-                const response = await fetch(`/gateInfos`);
+                const response = await fetch('/gate');
                 const result = await response.json();
 
-                result.map((gateName, index) => {
+                result.map((item) => {
                     const gateItem = document.createElement('button');
                     const span = document.createElement('span');
 
                     gateItem.setAttribute('class', "gateItem");
-                    gateItem.setAttribute('onclick', `gateSignal(${index + 1})`);
-                    span.innerText = gateName;
+                    gateItem.setAttribute('onclick', `gateSignal(${item.id})`);
+                    span.innerText = item.name;
 
                     gateItem.appendChild(span);
                     controllersList.appendChild(gateItem);
@@ -145,7 +146,7 @@
             changeStatus(144);
 
             try {
-                const response = await fetch(`/gate?gate=${gate}&pw=${pw}`, { method: "POST" });
+                const response = await fetch(`/gate?gate=${gate}&pw=${pw}`, { method: 'POST' });
                 const result = await response.text();
                 changeStatus(result);
             } 
@@ -156,23 +157,23 @@
 
         function changeStatus(code){
             if (code == 0){
-                statusSpan.innerText = "Senha incorreta";
-                statusBall.style.background = "#ff0000";
+                statusSpan.innerText = 'Senha incorreta';
+                statusBall.style.background = '#ff0000';
             } else if (code == 1){
-                statusSpan.innerText = "Portão inexistente";
-                statusBall.style.background = "#ff4d00";
+                statusSpan.innerText = 'Portão inexistente';
+                statusBall.style.background = '#ff4d00';
             } else if (code == 2){
-                statusSpan.innerText = "Sinal enviado";
-                statusBall.style.background = "#04ff00";
+                statusSpan.innerText = 'Sinal enviado';
+                statusBall.style.background = '#04ff00';
             } else if (code == 144){
-                statusSpan.innerText = "Esperando";
-                statusBall.style.background = "#808080"; 
+                statusSpan.innerText = 'Esperando';
+                statusBall.style.background = '#808080'; 
             } else if (code == 408){
-                statusSpan.innerText = "Tempo esgotado";
-                statusBall.style.background = "#ff0000";
+                statusSpan.innerText = 'Tempo esgotado';
+                statusBall.style.background = '#ff0000';
             } else {
-                statusSpan.innerText = "Erro";
-                statusBall.style.background = "#ff0000";
+                statusSpan.innerText = 'Erro';
+                statusBall.style.background = '#ff0000';
             }
         }
     </script>

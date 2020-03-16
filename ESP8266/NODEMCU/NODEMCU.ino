@@ -5,7 +5,7 @@
 const char* ssid  = "";
 const char* password = "";
 const String passwordGate = "123abc";
-const String gateInfos = "[\"Portão 1\", \"Portão 2\", \"Portão 3\", \"Portão 4\", \"Portão 5\", \"Portão 6\", \"Portão 7\", \"Portão 8\"]";
+const String gateInfos = "[{\"id\": 1, \"name\": \"Portão 1\"},{\"id\": 2, \"name\": \"Portão 2\"},{\"id\": 3, \"name\": \"Portão 3\"},{\"id\": 4, \"name\": \"Portão 4\"},{\"id\": 5, \"name\": \"Portão 5\"},{\"id\": 6, \"name\": \"Portão 6\"},{\"id\": 7, \"name\": \"Portão 7\"},{\"id\": 8, \"name\": \"Portão 8\"}]";
 
 IPAddress ip(192,168,0,90);
 IPAddress subnet(255,255,255,0);
@@ -78,9 +78,9 @@ void initializeWiFi(){
 void initializeWebServer(){
   server.on("/", HTTP_GET, handleRoot);
 
-  server.on("/gateInfos", HTTP_GET, handleGateInfos);
+  server.on("/gate", HTTP_GET, handleGateGET);
 
-  server.on("/gate", HTTP_POST, handleGate);
+  server.on("/gate", HTTP_POST, handleGatePOST);
 
   server.onNotFound(handleNotFound);
 
@@ -97,11 +97,11 @@ void handleRoot(){
   server.send(200, "text/html", indexFile);
 }
 
-void handleGateInfos(){
+void handleGateGET(){
   server.send(200, "application/json", gateInfos);
 }
 
-void handleGate(){
+void handleGatePOST(){
 
 /*
   * 0 - Não autorizado

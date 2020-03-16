@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
@@ -23,7 +23,7 @@ function Home(){
 
     async function loadGates(){
         try{
-            const response = await axios.get(`/gateInfos`);
+            const response = await axios.get('/gate');
             setGates(response.data);
         } catch {
             changeStatus(408);
@@ -38,7 +38,13 @@ function Home(){
         changeStatus(144);
 
         try{
-            const response = await axios.post(`/gate?gate=${gate}&&pw=${pass}`);
+            const response = await axios.post('/gate', "", {
+                params: {
+                    gate, 
+                    pw: pass
+                }
+            });
+
             changeStatus(response.data);
         } catch (e) {
             if (e.message === "Network Error"){
@@ -83,15 +89,18 @@ function Home(){
             <View style={styles.controllers}>
                 <FlatList
                     data={gates}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item) => item.id}
                     numColumns={2}
-                    renderItem={ ({ item, index }) => (
+                    renderItem={ ({ item }) => (
                         <TouchableOpacity 
                             style={styles.gateItem} 
-                            onPress={() => {gateSignal(index + 1)}} 
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                gateSignal(item.id); 
+                            }}
                             activeOpacity={0.8}
                         >
-                            <Text style={styles.gateItemText}>{item}</Text>
+                            <Text style={styles.gateItemText}>{item.name}</Text>
                         </TouchableOpacity>
                     ) }
                 />

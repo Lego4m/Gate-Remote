@@ -28,7 +28,10 @@
     },
     "android": {
       "package": "com.lego.gateremote",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": [
+        "VIBRATE"
+      ]
     }
   }
 }
