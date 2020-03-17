@@ -3,31 +3,45 @@ import { View, Text, FlatList, TouchableOpacity, Vibration } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
-import axios from '../../services/axios';
+import axios from 'axios';
 import styles from "./styles";
-
 
 function Home(){
     const insets = useSafeArea();
     const [statusText, setStatusText] = useState('Esperando');
-    const [statusBall, setStatusBall] = useState({icon: "questioncircle", color: "#808080"})
+    const [statusBall, setStatusBall] = useState({icon: "questioncircle", color: "#808080"});
+    const [ip, setIP] = useState('');
     const [gates, setGates] = useState([]);
     const [pass, setPass] = useState('');
     
+    emitter.on('ip', retrieveIP);
     emitter.on('pass', retrievePass);
 
     useEffect(()=> {
-        loadGates();
+        retrieveIP();
         retrievePass();
     }, []);
 
-    async function loadGates(){
-        try{
-            const response = await axios.get('/gate');
-            setGates(response.data);
-        } catch {
-            changeStatus(408);
+    useEffect(()=> {
+        async function loadGates(){
+            try{
+                const response = await axios.get(`http://${ip}/gate`);
+                setGates(response.data);
+                changeStatus(144);
+            } catch {
+                setGates([]);
+                changeStatus(408);
+            }
         }
+
+        if (ip !== ''){
+            loadGates();
+        }
+
+    }, [ip]);
+
+    async function retrieveIP(){
+        setIP(await getFromAsyncStorage('ip'));
     }
 
     async function retrievePass() {
@@ -38,7 +52,7 @@ function Home(){
         changeStatus(144);
 
         try{
-            const response = await axios.post('/gate', "", {
+            const response = await axios.post(`http://${ip}/gate`, "", {
                 params: {
                     gate, 
                     pw: pass
@@ -47,11 +61,7 @@ function Home(){
 
             changeStatus(response.data);
         } catch (e) {
-            if (e.message === "Network Error"){
-                changeStatus(408);
-            } else {
-                changeStatus(e.response.data);
-            }
+            e.message === "Network Error" ? changeStatus(408) : changeStatus(e.response.data);
         }
         
     }
@@ -79,7 +89,7 @@ function Home(){
     }
     
     return(
-        <View style={{flex: 1, paddingTop: insets.top, backgroundColor: '#191919'}}>
+        <View style={{flex: 1,backgroundColor: '#191919', paddingTop: insets.top}}>
             <View style={styles.statusBar}>
                 <Text style={styles.statusText}>
                     {statusText} <Icon name={statusBall.icon} size={15} color={statusBall.color}/>
