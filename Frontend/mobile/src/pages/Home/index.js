@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
+import { storeInAsyncStorage, getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
 import axios from 'axios';
 import styles from "./styles";
 
@@ -41,7 +41,8 @@ function Home(){
     }, [ip]);
 
     async function retrieveIP(){
-        setIP(await getFromAsyncStorage('ip'));
+        const localIP = await getFromAsyncStorage('ip');
+        localIP === null ? await storeInAsyncStorage('ip', '192.168.0.90') : setIP(localIP);
     }
 
     async function retrievePass() {
