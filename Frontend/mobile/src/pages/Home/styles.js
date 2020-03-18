@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     },
 
     controllers: {
-        maxWidth: 1200,
-        margin: "auto",
+        height: "100%",
+
         paddingTop: 8,
         paddingBottom: 20,
 

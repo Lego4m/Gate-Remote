@@ -10,7 +10,8 @@ function Home(){
     const insets = useSafeArea();
     const [statusText, setStatusText] = useState('Esperando');
     const [statusBall, setStatusBall] = useState({icon: "questioncircle", color: "#808080"});
-    const [ip, setIP] = useState('');
+
+    const [ip, setIP] = useState({ip: '', changed: false});
     const [gates, setGates] = useState([]);
     const [pass, setPass] = useState('');
     
@@ -25,7 +26,7 @@ function Home(){
     useEffect(()=> {
         async function loadGates(){
             try{
-                const response = await axios.get(`http://${ip}/gate`);
+                const response = await axios.get(`http://${ip.ip}/gate`);
                 setGates(response.data);
                 changeStatus(144);
             } catch {
@@ -34,7 +35,7 @@ function Home(){
             }
         }
 
-        if (ip !== ''){
+        if (ip.changed){
             loadGates();
         }
 
@@ -42,7 +43,7 @@ function Home(){
 
     async function retrieveIP(){
         const localIP = await getFromAsyncStorage('ip');
-        localIP === null ? await storeInAsyncStorage('ip', '192.168.0.90') : setIP(localIP);
+        localIP === null ? await storeInAsyncStorage('ip', '192.168.0.90') : setIP({ip: localIP, changed: true});
     }
 
     async function retrievePass() {
@@ -53,7 +54,7 @@ function Home(){
         changeStatus(144);
 
         try{
-            const response = await axios.post(`http://${ip}/gate`, "", {
+            const response = await axios.post(`http://${ip.ip}/gate`, "", {
                 params: {
                     gate, 
                     pw: pass

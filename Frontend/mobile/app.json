@@ -3,6 +3,7 @@
     "name": "Gate Remote",
     "slug": "GateRemote",
     "privacy": "public",
+    "backgroundColor": "#000000",
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
@@ -10,12 +11,12 @@
     ],
     "version": "2.0.0",
     "orientation": "portrait",
-    "primaryColor": "#191919",
+    "primaryColor": "#000000",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#191919"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -30,7 +31,8 @@
       "package": "com.lego.gateremote",
       "versionCode": 2,
       "adaptiveIcon": {
-        "backgroundColor": "#191919"
+        "foregroundImage": "./assets/adaptiveIcon.png",
+        "backgroundColor": "#000000"
       },
       "permissions": [
         "VIBRATE"
