@@ -37,8 +37,6 @@ O aplicativo é construído com o EXPO.
 
 Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
-Obs: O **IP** padrão do Axios (Frontend/mobile/src/services/axios.js, line 4) é 192.168.0.90
-
 <p align="center">
     <img src="project-preview.gif" width="550">
 </p>
