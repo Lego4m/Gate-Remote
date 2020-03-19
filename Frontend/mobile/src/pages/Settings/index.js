@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, Vibration } from 'react-native';
+import { View, Text, TextInput, Keyboard, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { storeInAsyncStorage, getFromAsyncStorage } from '../../services/AsyncStorageService';

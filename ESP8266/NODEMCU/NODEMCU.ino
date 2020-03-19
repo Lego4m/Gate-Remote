@@ -5,12 +5,12 @@
 const char* ssid  = "";
 const char* password = "";
 const String passwordGate = "123abc";
-const String gateInfos = "[{\"id\": 1, \"name\": \"Portão 1\"},{\"id\": 2, \"name\": \"Portão 2\"},{\"id\": 3, \"name\": \"Portão 3\"},{\"id\": 4, \"name\": \"Portão 4\"},{\"id\": 5, \"name\": \"Portão 5\"},{\"id\": 6, \"name\": \"Portão 6\"},{\"id\": 7, \"name\": \"Portão 7\"},{\"id\": 8, \"name\": \"Portão 8\"}]";
 
 IPAddress ip(192,168,0,90);
 IPAddress subnet(255,255,255,0);
 IPAddress gateway(192,168,0,1);
 
+String gateInfos;
 String indexFile;
 
 ESP8266WebServer server(80);
@@ -29,6 +29,14 @@ const int gate8 = 15;     //D8
 
 void readFiles(){
   SPIFFS.begin();
+
+  if(SPIFFS.exists("/gates.json")){
+    File rGates = SPIFFS.open("/gates.json", "r");
+    gateInfos = rGates.readString();
+    rGates.close();
+  } else {
+    gateInfos = "Could not find gates.json";
+  }
 
   if(SPIFFS.exists("/index.html")){
     File rIndex = SPIFFS.open("/index.html", "r");

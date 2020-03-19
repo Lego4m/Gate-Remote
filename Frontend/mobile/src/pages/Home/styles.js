@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
 
     statusText: {
         color: 'white',
-        textAlign: 'center',
         fontSize: 15,
+        textAlign: 'center',
     },
 
     controllers: {

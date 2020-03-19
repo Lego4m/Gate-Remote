@@ -6,7 +6,7 @@ Esse projeto usa apenas um ESP8266 para abrir portões.
 
 ### Pré requisitos
 
-* Arduino IDE (Com suporte a ESP8266, se você não sabe como, [clique Aqui](http://autocorerobotica.blog.br/aprenda-configurar-ide-arduino-para-familia-esp8266/))
+* Arduino IDE (Com suporte a ESP8266, se você não sabe como, [clique aqui](http://autocorerobotica.blog.br/aprenda-configurar-ide-arduino-para-familia-esp8266/))
 * Ferramenta [ESP8266 sketch Data Upload](https://github.com/esp8266/arduino-esp8266fs-plugin/releases)
 * ESP8266
 * Módulo de relé
@@ -19,14 +19,12 @@ Abra o sketch referente a sua placa em ESP8266/
 
 * Mude a linha 5 e 6 para o nome e senha de sua rede WiFi;
 * Mude a linha 7 para a senha que será utilizada para autenticação;
-* Mude a linha 8 para os portões que serão utilizados (Lembre-se de alterar a função gateExists(int gateID);
-* Mude a linha 10, 11, 12 para as configurações de IP;
+* Mude a linha 9, 10, 11 para as configurações de IP;
 ***
 
-Copie o arquivo "Frontend/web/index.html" para dentro de "ESP8266/suaplaca/data".
+Copie os arquivos "index.html" e "gates.json" para dentro de "ESP8266/suaplaca/data".
 
-Obs: Caso precise do mínimo uso de espaço possível, use o [HTML Compressor](https://htmlcompressor.com/compressor/).
-
+* Altere os nomes dos portões dentro de gates.json
 * Use a ferramenta ESP8266 sketch Data Upload;
 * Logo após, grave o sketch no seu ESP8266;
 ***
