@@ -7,8 +7,12 @@ async function storeInAsyncStorage(type, content){
     try {
         await AsyncStorage.setItem(type, content);
         emitter.emit(type);
+
+        return true;
     } catch (e) {
         console.log(e);
+        
+        return false;
     }
 }
 

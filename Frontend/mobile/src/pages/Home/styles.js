@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     controllers: {
         height: "100%",
 
-        paddingTop: 8,
         paddingBottom: 20,
 
         alignItems: "center",
