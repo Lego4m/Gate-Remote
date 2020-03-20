@@ -36,7 +36,3 @@ O aplicativo é construído com o EXPO.
 Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
 <img src="preview/home.png" alt="preview home" height="400" width="184"/> <img src="preview/settings.png" alt="preview settings" height="400" width="184"/>
-
-## Autor
-| [<img src="https://avatars0.githubusercontent.com/u/39628486?s=460&v=4" width=115><br><sub>Leonardo</sub>](https://github.com/Leogamermmmm) |
-| :---: |
