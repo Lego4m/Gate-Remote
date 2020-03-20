@@ -1,14 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-        width: "100%",
+    background: {
+        flex: 1,
+    },
 
-        marginBottom: 20,
+    container: {
+        flex: 1,
+
         paddingLeft: 50,
         paddingRight: 50,
         
-        alignItems: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     input: {
@@ -21,16 +25,14 @@ const styles = StyleSheet.create({
 
         borderRadius: 7,
 
-        textAlign: 'center',
         fontSize: 14,
+        textAlign: 'center',
     },
 
     creditsText: {
-        backgroundColor: '#191919', 
-        textAlign: 'center',
-
         color: 'white', 
         fontSize: 12,
+        textAlign: 'center',
     }
 });
 

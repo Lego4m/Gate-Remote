@@ -1,9 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1, 
+    },
+
     statusBar: {
         width: "100%",
-        backgroundColor: "#3c3c3c",
+        backgroundColor: "#282828",
     },
 
     statusText: {

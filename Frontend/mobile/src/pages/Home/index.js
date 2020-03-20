@@ -91,7 +91,8 @@ function Home(){
     }
     
     return(
-        <View style={{flex: 1, backgroundColor: '#191919', paddingTop: insets.top}}>
+        <View style={[styles.background, {paddingTop: insets.top}]}>
+            
             <View style={styles.statusBar}>
                 <Text style={styles.statusText}>
                     {statusText} <Icon name={statusBall.icon} size={15} color={statusBall.color}/>

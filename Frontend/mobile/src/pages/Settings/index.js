@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Keyboard, Vibration } from 'react-native';
+import { View, KeyboardAvoidingView, Text, TextInput, Keyboard, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { storeInAsyncStorage, getFromAsyncStorage } from '../../services/AsyncStorageService';
@@ -36,15 +36,9 @@ function Settings(){
     
     return(
         <>
-        <View 
-            style={{
-                flex: 1, 
-                backgroundColor: '#191919', 
-                paddingTop: insets.top,
-                paddingBottom: 20,
-                alignItems: "center", 
-                justifyContent: 'center', 
-            }}
+        <KeyboardAvoidingView 
+            style={[styles.background, {paddingTop: insets.top}]}
+            behavior={"padding"}
         >
 
             <View style={styles.container}>
@@ -63,11 +57,7 @@ function Settings(){
                     
                 </View>
 
-            </View>
-
-            <View style={styles.container}>
-
-                <View style={{flexDirection: "row"}}>
+                <View style={{flexDirection: "row", marginTop: 20}}>
 
                     <Icon name={secureText.icon} size={35} color={'#35AAFF'} onPress={showHidePass} />
                     <TextInput 
@@ -85,9 +75,9 @@ function Settings(){
 
             </View>
 
-        </View>
+        </KeyboardAvoidingView>
 
-        <Text style={styles.creditsText}>Leonardo A. Maron</Text>
+        <Text style={styles.creditsText}>Gate Remote - Leonardo A. Maron</Text>
         </>
     );
 }
