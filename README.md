@@ -1,6 +1,6 @@
-# ESP8266 gate solo
+# Gate-Remote
 
-Esse projeto usa apenas um ESP8266 para abrir portões.
+Esse projeto usa o esp8266 para abrir portões.
 
 ## Começando
 
