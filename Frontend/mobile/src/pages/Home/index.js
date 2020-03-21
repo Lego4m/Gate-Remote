@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useSafeArea } from 'react-native-safe-area-context';
 import { storeInAsyncStorage, getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
 import axios from 'axios';
 import styles from "./styles";
 
 function Home(){
-    const insets = useSafeArea();
     const [statusText, setStatusText] = useState('Esperando');
     const [statusBall, setStatusBall] = useState({icon: "questioncircle", color: "#808080"});
 
@@ -91,35 +89,34 @@ function Home(){
     }
     
     return(
-        <View style={[styles.background, {paddingTop: insets.top}]}>
-            
+        <>
             <View style={styles.statusBar}>
                 <Text style={styles.statusText}>
                     {statusText} <Icon name={statusBall.icon} size={15} color={statusBall.color}/>
                 </Text>
             </View>
 
-            <View style={styles.controllers}>
-                <FlatList
-                    data={gates}
-                    keyExtractor={(item) => item.id}
-                    numColumns={2}
-                    renderItem={ ({ item }) => (
-                        <TouchableOpacity 
-                            style={styles.gateItem} 
-                            onPress={() => {
-                                Vibration.vibrate(50);
-                                gateSignal(item.id); 
-                            }}
-                            activeOpacity={0.8}
-                        >
-                            <Text style={styles.gateItemText}>{item.name}</Text>
-                        </TouchableOpacity>
-                    ) }
-                />
-            </View>
-
-        </View>
+            <FlatList
+                contentContainerStyle={{
+                    alignItems: 'center',
+                }}
+                data={gates}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                renderItem={ ({ item }) => (
+                    <TouchableOpacity 
+                        style={styles.gateItem} 
+                        onPress={() => {
+                            Vibration.vibrate(50);
+                            gateSignal(item.id); 
+                        }}
+                        activeOpacity={0.8}
+                    >
+                        <Text style={styles.gateItemText}>{item.name}</Text>
+                    </TouchableOpacity>
+                )}
+            />
+        </>
     );
 }
 

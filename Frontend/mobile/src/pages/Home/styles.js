@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1, 
-    },
-
     statusBar: {
         width: "100%",
         backgroundColor: "#282828",
@@ -14,14 +10,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 15,
         textAlign: 'center',
-    },
-
-    controllers: {
-        height: "100%",
-
-        paddingBottom: 20,
-
-        alignItems: "center",
     },
 
     gateItem: {
@@ -42,7 +30,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: "center",
     }
-
 });
 
 export default styles;

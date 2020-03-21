@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Text, TextInput, Keyboard, Vibration } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useSafeArea } from 'react-native-safe-area-context';
 import { storeInAsyncStorage, getFromAsyncStorage } from '../../services/AsyncStorageService';
 import styles from "./styles";
 
 function Settings(){
-    const insets = useSafeArea();
     const [ip, setIP] = useState('');
     const [pass, setPass] = useState('');
     const [secureText, setSecureText] = useState({state: true, icon: "eyeo"});
@@ -36,12 +34,10 @@ function Settings(){
     
     return(
         <>
-        <KeyboardAvoidingView 
-            style={[styles.background, {paddingTop: insets.top}]}
-            behavior={"padding"}
-        >
-
-            <View style={styles.container}>
+            <KeyboardAvoidingView 
+                style={styles.container}
+                behavior="padding"
+            >
 
                 <View style={{flexDirection: "row"}}>
 
@@ -73,11 +69,9 @@ function Settings(){
 
                 </View>
 
-            </View>
+            </KeyboardAvoidingView>
 
-        </KeyboardAvoidingView>
-
-        <Text style={styles.creditsText}>Gate Remote - Leonardo A. Maron</Text>
+            <Text style={styles.creditsText}>Gate Remote - Leonardo A. Maron</Text>
         </>
     );
 }
