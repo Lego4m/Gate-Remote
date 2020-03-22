@@ -12,6 +12,8 @@ function Home(){
     const [ip, setIP] = useState({ip: '', changed: false});
     const [gates, setGates] = useState([]);
     const [pass, setPass] = useState('');
+
+    const [refreshing, setRefreshing] = useState(false);
     
     emitter.on('ip', retrieveIP);
     emitter.on('pass', retrievePass);
@@ -22,22 +24,21 @@ function Home(){
     }, []);
 
     useEffect(()=> {
-        async function loadGates(){
-            try{
-                const response = await axios.get(`http://${ip.ip}/gate`);
-                setGates(response.data);
-                changeStatus(144);
-            } catch {
-                setGates([]);
-                changeStatus(408);
-            }
-        }
-
         if (ip.changed){
             loadGates();
         }
-
     }, [ip]);
+
+    async function loadGates(){
+        try{
+            const response = await axios.get(`http://${ip.ip}/gate`);
+            setGates(response.data);
+            changeStatus(144);
+        } catch {
+            setGates([]);
+            changeStatus(408);
+        }
+    }
 
     async function retrieveIP(){
         const localIP = await getFromAsyncStorage('ip');
@@ -87,6 +88,12 @@ function Home(){
             setStatusBall({icon: "closecircle", color: "#ff0000"});
         }
     }
+
+    async function handleRefresh(){
+        setRefreshing(true);
+        await loadGates();
+        setRefreshing(false);
+    }
     
     return(
         <>
@@ -115,6 +122,8 @@ function Home(){
                         <Text style={styles.gateItemText}>{item.name}</Text>
                     </TouchableOpacity>
                 )}
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
             />
         </>
     );
