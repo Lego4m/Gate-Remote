@@ -56,36 +56,35 @@ function Home(){
             const response = await axios.post(`http://${ip.ip}/gate`, "", {
                 params: {
                     gate, 
-                    pw: pass
+                },
+                headers: {
+                    Authorization: pass,
                 }
             });
 
-            changeStatus(response.data);
+            changeStatus(response.status);
         } catch (e) {
-            e.message === "Network Error" ? changeStatus(408) : changeStatus(e.response.data);
+            e.message === "Network Error" ? changeStatus(408) : changeStatus(e.response.status);
         }
         
     }
 
     function changeStatus(code){
-        if (code == 0){
-            setStatusText("Senha incorreta");
-            setStatusBall({icon: "closecircle", color: "#ff0000"});
-        } else if (code == 1){
-            setStatusText("Portão inexistente");
-            setStatusBall({icon: "exclamationcircle", color: "#ff4d00"});
-        } else if (code == 2){
+        if (code == 204){
             setStatusText("Sinal enviado");
             setStatusBall({icon: "checkcircle", color: "#04ff00"});
-        } else if (code == 144){
-            setStatusText("Esperando");
-            setStatusBall({icon: "questioncircle", color: "#808080"});
+        } else if (code == 404){
+            setStatusText("Portão inexistente");
+            setStatusBall({icon: "exclamationcircle", color: "#ff4d00"});
+        } else if (code == 401){
+            setStatusText("Senha incorreta");
+            setStatusBall({icon: "closecircle", color: "#ff0000"});
         } else if (code == 408){
             setStatusText("Tempo esgotado");
             setStatusBall({icon: "closecircle", color: "#ff0000"});
-        } else {
-            setStatusText("Erro");
-            setStatusBall({icon: "closecircle", color: "#ff0000"});
+        } else if (code == 144){
+            setStatusText("Esperando");
+            setStatusBall({icon: "questioncircle", color: "#808080"});
         }
     }
 

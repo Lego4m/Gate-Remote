@@ -111,22 +111,16 @@ void handleGateGET(){
 
 void handleGatePOST(){
 
-/*
-  * 0 - Não autorizado
-  * 1 - Portão não existe
-  * 2 - Sinal feito
-*/
-
-  if (!isAuthenticated(server.arg("pw"))){
-    server.send(401, "text/plain", "0");  // Não autenticado
+  if (!isAuthenticated(server.header("Authorization"))){
+    server.send(401);  // Não autenticado
     return;
 
   } else if (!gateExists(server.arg("gate").toInt())) {
-    server.send(404, "text/plain", "1");  // Portão não existe
+    server.send(404);  // Portão não existe
     return;
 
   } else {
-    server.send(200, "text/plain", "2");  // Sinal feito
+    server.send(204);  // Sinal feito
   }
 
   switch(server.arg("gate").toInt()){

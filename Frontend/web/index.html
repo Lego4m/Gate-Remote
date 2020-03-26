@@ -66,6 +66,12 @@
 
             align-items: center;
             justify-content: center;
+
+            transition: border-color 0.2s;
+        }
+
+        .gateItem:hover {
+            border-color: #999;
         }
 
         .gateItem span {
@@ -138,9 +144,14 @@
             changeStatus(144);
 
             try {
-                const response = await fetch(`/gate?gate=${gate}&pw=${pw}`, { method: 'POST' });
-                const result = await response.text();
-                changeStatus(result);
+                const response = await fetch(`/gate?gate=${gate}`, {
+                    method: 'POST',
+                    headers: new Headers({
+                        Authorization: pw,
+                    })  
+                });
+
+                changeStatus(response.status);
             } 
             catch {
                 changeStatus(408);
@@ -148,24 +159,21 @@
         }
 
         function changeStatus(code){
-            if (code == 0){
-                statusSpan.innerText = 'Senha incorreta';
-                statusBall.style.background = '#ff0000';
-            } else if (code == 1){
-                statusSpan.innerText = 'Portão inexistente';
-                statusBall.style.background = '#ff4d00';
-            } else if (code == 2){
+            if (code == 204){
                 statusSpan.innerText = 'Sinal enviado';
                 statusBall.style.background = '#04ff00';
-            } else if (code == 144){
-                statusSpan.innerText = 'Esperando';
-                statusBall.style.background = '#808080'; 
+            } else if (code == 404){
+                statusSpan.innerText = 'Portão inexistente';
+                statusBall.style.background = '#ff4d00';
+            } else if (code == 401){
+                statusSpan.innerText = 'Senha incorreta';
+                statusBall.style.background = '#ff0000';
             } else if (code == 408){
                 statusSpan.innerText = 'Tempo esgotado';
                 statusBall.style.background = '#ff0000';
-            } else {
-                statusSpan.innerText = 'Erro';
-                statusBall.style.background = '#ff0000';
+            } else if (code == 144){
+                statusSpan.innerText = 'Esperando';
+                statusBall.style.background = '#808080'; 
             }
         }
     </script>
