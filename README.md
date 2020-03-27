@@ -22,7 +22,7 @@ Abra o sketch referente a sua placa em [ESP8266](ESP8266)
 * Mude a linha 9, 10, 11 para as configurações de IP;
 ***
 
-Copie os arquivos [index.html e gates.json](Frontend/web) para dentro de "ESP8266/suaplaca/data".
+Copie os arquivos [index.html e gates.json](frontend/web) para dentro de "ESP8266/suaplaca/data".
 
 * Altere os nomes dos portões dentro de gates.json
 * Use a ferramenta ESP8266 sketch Data Upload;

@@ -1,41 +1,49 @@
 import React from 'react';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import Icon from 'react-native-vector-icons/AntDesign';
+import { AntDesign } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Home from './pages/Home/index';
-import Settings from './pages/Settings/index';
+const Tab = createBottomTabNavigator();
 
-const Routes = createAppContainer(
-    createBottomTabNavigator({
-        Home: {
-            screen: Home,
-            navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon name="home" size={35} color={tintColor}/>
-                )
-            }
-        },
-        Settings: {
-            screen: Settings,
-            navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon name="setting" size={35} color={tintColor}/>
-                )
-            }
-        },
-    }, {
-        tabBarOptions: {
-            keyboardHidesTabBar: false,
-            activeTintColor: 'white',
-            showLabel: false,
-            showIcon: true,
-            style: {
-                backgroundColor: '#191919',
-                borderTopWidth: 0,
-            },
-        },
-    })
-);
+import Home from './pages/Home';
+import Settings from './pages/Settings';
 
-export default Routes;
+export default function Routes(){
+    return(
+        <NavigationContainer>
+            <Tab.Navigator 
+                tabBarOptions={{
+                    activeTintColor: "#FFF",
+                    showLabel: false,
+                    showIcon: true,
+                    style: {
+                        backgroundColor: "#191919",
+                        borderTopWidth: 0,
+                    }
+                }}
+            >
+
+                <Tab.Screen 
+                    name="Home" 
+                    component={Home} 
+                    options={{ 
+                        tabBarIcon: ({ color }) => (
+                            <AntDesign name="home" size={35} color={color} />
+                        )
+                    }}
+                />
+
+                <Tab.Screen 
+                    name="Settings" 
+                    component={Settings} 
+                    options={{ 
+                        tabBarIcon: ({ color }) => (
+                            <AntDesign name="setting" size={35} color={color} />
+                        )
+                    }}
+                />
+
+            </Tab.Navigator>
+        </NavigationContainer>
+    )
+}

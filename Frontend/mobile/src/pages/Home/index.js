@@ -1,90 +1,72 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Vibration } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { storeInAsyncStorage, getFromAsyncStorage, emitter } from '../../services/AsyncStorageService';
+import { AntDesign } from '@expo/vector-icons';
+import { View, Text, FlatList, TouchableOpacity, AsyncStorage } from 'react-native';
+
+import defaultIp from '../../utils/defaultIp';
+
 import axios from 'axios';
-import styles from "./styles";
 
-function Home(){
-    const [statusText, setStatusText] = useState('Esperando');
-    const [statusBall, setStatusBall] = useState({icon: "questioncircle", color: "#808080"});
+import styles from './styles';
 
-    const [ip, setIP] = useState({ip: '', changed: false});
+export default function Home(){
+    const [status, setStatus] = useState({
+        text: "Esperando", 
+        icon: { name: "questioncircle", color: "#808080" }
+    });
+
     const [gates, setGates] = useState([]);
+    const [ip, setIp] = useState('');
     const [pass, setPass] = useState('');
 
     const [refreshing, setRefreshing] = useState(false);
-    
-    emitter.on('ip', retrieveIP);
-    emitter.on('pass', retrievePass);
 
     useEffect(()=> {
-        retrieveIP();
-        retrievePass();
-    }, []);
-
-    useEffect(()=> {
-        if (ip.changed){
-            loadGates();
-        }
-    }, [ip]);
+        loadGates();
+    }, [])
 
     async function loadGates(){
-        try{
-            const response = await axios.get(`http://${ip.ip}/gate`);
-            setGates(response.data);
-            changeStatus(144);
+        try {
+            const ip = await AsyncStorage.getItem('ip') || defaultIp;
+            const pass = await AsyncStorage.getItem('pass');
+
+            try{
+                const response = await axios.get(`http://${ip}/gate`);
+
+                if (response.headers["content-type"] === "application/json"){
+                    setIp(ip);
+                    setPass(pass);
+                    setGates(response.data);
+                    changeStatus(144);
+                } else {
+                    throw "error";
+                }
+
+            } catch {
+                setGates([]);
+                changeStatus(408);
+            }
+
         } catch {
-            setGates([]);
-            changeStatus(408);
+            changeStatus(120);
         }
     }
 
-    async function retrieveIP(){
-        const localIP = await getFromAsyncStorage('ip');
-        localIP === null ? await storeInAsyncStorage('ip', '192.168.0.90') : setIP({ip: localIP, changed: true});
-    }
-
-    async function retrievePass() {
-        setPass(await getFromAsyncStorage('pass'));
-    }
-
-    async function gateSignal(gate) {
+    async function gateSignal(id){
         changeStatus(144);
 
-        try{
-            const response = await axios.post(`http://${ip.ip}/gate`, "", {
+        try {
+            const response = await axios.post(`http://${ip}/gate`, "", {
                 params: {
-                    gate, 
+                    gate: id
                 },
                 headers: {
-                    Authorization: pass,
+                    authorization: pass
                 }
             });
 
             changeStatus(response.status);
-        } catch (e) {
+        } catch(e) {
             e.message === "Network Error" ? changeStatus(408) : changeStatus(e.response.status);
-        }
-        
-    }
-
-    function changeStatus(code){
-        if (code == 204){
-            setStatusText("Sinal enviado");
-            setStatusBall({icon: "checkcircle", color: "#04ff00"});
-        } else if (code == 404){
-            setStatusText("Portão inexistente");
-            setStatusBall({icon: "exclamationcircle", color: "#ff4d00"});
-        } else if (code == 401){
-            setStatusText("Senha incorreta");
-            setStatusBall({icon: "closecircle", color: "#ff0000"});
-        } else if (code == 408){
-            setStatusText("Tempo esgotado");
-            setStatusBall({icon: "closecircle", color: "#ff0000"});
-        } else if (code == 144){
-            setStatusText("Esperando");
-            setStatusBall({icon: "questioncircle", color: "#808080"});
         }
     }
 
@@ -93,39 +75,48 @@ function Home(){
         await loadGates();
         setRefreshing(false);
     }
-    
+
+    function changeStatus(code){
+        if (code == 204){
+            setStatus({text: "Sinal enviado", icon: {name: "checkcircle", color: "#04ff00"}});
+        } else if (code == 404){
+            setStatus({text: "Portão inexistente", icon: {name: "exclamationcircle", color: "#ff4d00"}});
+        } else if (code == 401){
+            setStatus({text: "Senha incorreta", icon: {name: "closecircle", color: "#ff0000"}});
+        } else if (code == 408){
+            setStatus({text: "Tempo esgotado", icon: {name: "closecircle", color: "#ff0000"}});
+        } else if (code == 144){
+            setStatus({text: "Esperando", icon: {name: "questioncircle", color: "#808080"}});
+        } else if (code == 120){
+            setStatus({text: "Erro no armazenamento", icon: {name: "closecircle", color: "#ff0000"}});
+        }
+    }
+
     return(
-        <>
+        <View style={styles.container} >
             <View style={styles.statusBar}>
-                <Text style={styles.statusText}>
-                    {statusText} <Icon name={statusBall.icon} size={15} color={statusBall.color}/>
+                <Text style={styles.statusBarText}>
+                    {status.text} <AntDesign name={status.icon.name} size={15} color={status.icon.color} /> 
                 </Text>
             </View>
 
             <FlatList
-                contentContainerStyle={{
-                    alignItems: 'center',
-                }}
+                contentContainerStyle={{ alignItems: "center" }}
                 data={gates}
-                keyExtractor={(item) => item.id}
                 numColumns={2}
-                renderItem={ ({ item }) => (
+                keyExtractor={gate => String(gate.id)}
+                renderItem={ ({ item: gate }) => (
                     <TouchableOpacity 
                         style={styles.gateItem} 
-                        onPress={() => {
-                            Vibration.vibrate(50);
-                            gateSignal(item.id); 
-                        }}
-                        activeOpacity={0.8}
+                        onPress={()=>{gateSignal(gate.id)}} 
+                        activeOpacity={0.6}
                     >
-                        <Text style={styles.gateItemText}>{item.name}</Text>
+                        <Text style={styles.gateItemText}>{gate.name}</Text>
                     </TouchableOpacity>
-                )}
+                ) }
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
             />
-        </>
-    );
+        </View>
+    )
 }
-
-export default Home;

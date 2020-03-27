@@ -1,35 +1,30 @@
 import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#000000",
 
-        paddingLeft: 50,
-        paddingRight: 50,
-        
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: Constants.statusBarHeight,
+
+        alignItems: "center",
+        justifyContent: "center"
     },
 
-    input: {
-        backgroundColor: 'white',
-        width: 200,
+    inputGroup: {
+        flexDirection: "row"
+    },
+
+    textInput: {
+        width: "60%",
         height: 40,
 
-        marginLeft: 7,
-        marginRight: 7,
+        backgroundColor: "#FFF",
 
-        borderRadius: 7,
+        marginHorizontal: 8,
+        borderRadius: 8,
 
-        fontSize: 14,
-        textAlign: 'center',
-    },
-
-    creditsText: {
-        color: 'white', 
-        fontSize: 12,
-        textAlign: 'center',
+        textAlign: "center"
     }
 });
-
-export default styles;

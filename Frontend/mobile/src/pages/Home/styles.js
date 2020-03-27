@@ -1,35 +1,39 @@
 import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 
-const styles = StyleSheet.create({
-    statusBar: {
-        width: "100%",
-        backgroundColor: "#282828",
+export default StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#000000",
+        paddingTop: Constants.statusBarHeight
     },
 
-    statusText: {
-        color: 'white',
-        fontSize: 15,
-        textAlign: 'center',
+    statusBar: {
+        backgroundColor: "#282828"
+    },
+
+    statusBarText: {
+        color: "#FFF",
+        lineHeight: 24,
+        textAlign: "center"
     },
 
     gateItem: {
-        height: 130,
         width: 130,
-        margin: 14,
+        height: 130,
+        margin: 15,
 
-        backgroundColor: 'black',
-        borderRadius: 5,
-        borderWidth : 1,
-        borderColor: 'white',
-        alignItems: 'center',
-        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: "#FFF",
+        borderRadius: 8,
+        
+        justifyContent: "center"
     },
 
     gateItemText: {
-        color: "white",
+        color: "#FFF",
+        lineHeight: 24,
         fontSize: 18,
-        textAlign: "center",
+        textAlign: "center"
     }
 });
-
-export default styles;
