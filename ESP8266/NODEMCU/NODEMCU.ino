@@ -2,30 +2,32 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
+// Wi-Fi
+
 const char* ssid  = "";
 const char* password = "";
-const String passwordGate = "123abc";
 
 IPAddress ip(192,168,0,90);
 IPAddress subnet(255,255,255,0);
 IPAddress gateway(192,168,0,1);
+
+// Gates & Pins
+
+const String passwordGate = "123abc";  // Authorization
+
+const int nog = 8; // Number of Gates
+
+const int builtInLed = 2; // D4
+const int gates[nog] = {16, 5, 4, 0, 14, 12, 13, 15}; // Pins
+
+// Web Server
 
 String gateInfos;
 String indexFile;
 
 ESP8266WebServer server(80);
 
-const int builtInLed = 2; //D4
-const int gate1 = 16;     //D0
-const int gate2 = 5;      //D1
-const int gate3 = 4;      //D2
-const int gate4 = 0;      //D3
-const int gate5 = 14;     //D5
-const int gate6 = 12;     //D6
-const int gate7 = 13;     //D7
-const int gate8 = 15;     //D8
-
-// ======================================== Inicialização do ESP
+// --------- ESP initialization --------- End of default configuration ---------
 
 void readFiles(){
   SPIFFS.begin();
@@ -51,29 +53,18 @@ void readFiles(){
 
 void initializePins(){
   pinMode(builtInLed, OUTPUT);
-  pinMode(gate1, OUTPUT);
-  pinMode(gate2, OUTPUT);
-  pinMode(gate3, OUTPUT);
-  pinMode(gate4, OUTPUT);
-  pinMode(gate5, OUTPUT);
-  pinMode(gate6, OUTPUT);
-  pinMode(gate7, OUTPUT);
-  pinMode(gate8, OUTPUT);
   digitalWrite(builtInLed, HIGH);
-  digitalWrite(gate1, HIGH);
-  digitalWrite(gate2, HIGH);
-  digitalWrite(gate3, HIGH);
-  digitalWrite(gate4, HIGH);
-  digitalWrite(gate5, HIGH);
-  digitalWrite(gate6, HIGH);
-  digitalWrite(gate7, HIGH);
-  digitalWrite(gate8, HIGH);
+
+  for (int i = 0; i < nog; i++) {
+    pinMode(gates[i], OUTPUT);
+    digitalWrite(gates[i], HIGH);
+  }
 }
 
 void initializeWiFi(){
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
   WiFi.config(ip, gateway, subnet);
+  WiFi.begin(ssid, password);
 
   while(WiFi.status() != WL_CONNECTED) {
     digitalWrite(builtInLed, LOW);
@@ -99,7 +90,7 @@ void sinalize(){
   digitalWrite(builtInLed, LOW);
 }
 
-// ======================================== Funções do servidor
+// Functions of web-server
 
 void handleRoot(){
   server.send(200, "text/html", indexFile);
@@ -111,73 +102,45 @@ void handleGateGET(){
 
 void handleGatePOST(){
 
-  if (!isAuthenticated(server.header("Authorization"))){
-    server.send(401);  // Não autenticado
+  if (!isAuthenticated(server.header("Authorization"))) {
+    server.send(401);  // Not authenticated
+    return;
+
+  } else if (!server.hasArg("gate") || !isDigit(server.arg("gate").charAt(0))) {
+    server.send(400);  // Bad Request
     return;
 
   } else if (!gateExists(server.arg("gate").toInt())) {
-    server.send(404);  // Portão não existe
+    server.send(404);  // Gate does not exist
     return;
 
   } else {
-    server.send(204);  // Sinal feito
+    server.send(204);  // Sign executed
   }
 
-  switch(server.arg("gate").toInt()){
-    case 1:
-      gateSignal(gate1);
-      break;
-
-    case 2:
-      gateSignal(gate2);
-      break;
-
-    case 3:
-      gateSignal(gate3);
-      break;
-
-    case 4:
-      gateSignal(gate4);
-      break;
-
-    case 5:
-      gateSignal(gate5);
-      break;
-
-    case 6:
-      gateSignal(gate6);
-      break;
-
-    case 7:
-      gateSignal(gate7);
-      break;
-
-    case 8:
-      gateSignal(gate8);
-      break;
-  }
+  gateSignal(server.arg("gate").toInt());
 }
 
 void handleNotFound(){
   server.send(404, "text/plain", "404");
 }
 
-// ======================================== Funções
+// Functions
 
 bool isAuthenticated(String pw){
   if (pw == passwordGate){
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 bool gateExists(int gateID){
-  if (gateID >= 1 && gateID <= 8){
-    return true;
-  } else {
-    return false;
+  for (int i = 0; i < nog; i++){
+    if (gates[i] == gateID) {
+      return true;
+    }
   }
+  return false;
 }
 
 void gateSignal(int gate){
@@ -186,7 +149,7 @@ void gateSignal(int gate){
   digitalWrite(gate, HIGH);
 }
 
-// ======================================== Funções ESP
+// Functions default
 
 void setup() {
   readFiles();

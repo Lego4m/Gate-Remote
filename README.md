@@ -17,12 +17,11 @@ Esse projeto usa o esp8266 para abrir portões.
 
 Abra o sketch referente a sua placa em [ESP8266](ESP8266)
 
-* Mude a linha 5 e 6 para o nome e senha de sua rede WiFi;
-* Mude a linha 7 para a senha que será utilizada para autenticação;
-* Mude a linha 9, 10, 11 para as configurações de IP;
+* Mude as configurações do seu Wi-Fi no tópico *Wi-Fi*;
+* Mude as configurações dos portões no tópico *Gates & Pins*;
 ***
 
-Copie os arquivos [index.html e gates.json](frontend/web) para dentro de "ESP8266/suaplaca/data".
+Copie os arquivos [index.html e gates.json](Frontend/web) para dentro de "ESP8266/suaplaca/data".
 
 * Altere os nomes dos portões dentro de gates.json
 * Use a ferramenta ESP8266 sketch Data Upload;
