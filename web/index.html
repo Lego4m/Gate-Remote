@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate Remote</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: 0;
+      }
+
+      body {
+        background: #242526;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      div.status {
+        background: #37393D;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2px 0;
+      }
+
+      div.status span {
+        color: #fff;
+      }
+
+      div.status .ball {
+        height: 10px;
+        width: 10px;
+        background: #808080;
+        border-radius: 50%;
+        margin-left: 5px;
+      }
+
+      main.control {
+        max-width: 1180px;
+        margin: auto;
+        padding: 40px;
+
+        display: flex;
+        justify-content: center;
+      }
+
+      main.control ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        list-style: none;
+      }
+
+      main.control ul li {
+        height: 120px;
+        width: 120px;
+        padding: 5px;
+
+        background: #000;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+
+        transition: border-color 0.2s;
+      }
+
+      main.control ul li:hover {
+        border-color: #999;
+      }
+
+      main.control ul li span {
+        max-width: 100%;
+        width: 100%;
+        word-wrap: break-word;
+
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+      }
+
+      @media (max-width: 660px) {
+        main.control ul {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="status">
+      <span>Esperando</span>
+      <div class="ball"></div>
+    </div>
+
+    <main class="control">
+      <ul id="controllers"></ul>
+    </main>
+
+    <script>
+      const controllers = document.getElementById('controllers');
+      const status = {
+        text: document.getElementsByClassName('status')[0].getElementsByTagName('span')[0],
+        ball: document.getElementsByClassName('status')[0].getElementsByClassName('ball')[0],
+      };
+
+      const pass = prompt('Insira sua senha');
+
+      async function retrieveGates() {
+        const response = await fetch('/gate', {
+          headers: new Headers({
+            Authorization: pass,
+          }),
+        });
+
+        if (!response.ok) {
+          return changeStatus(response.status);
+        }
+
+        const result = await response.json();
+
+        result.map((gate) => {
+          const gateItem = document.createElement('li');
+          const span = document.createElement('span');
+
+          gateItem.setAttribute('onclick', `gateSignal(${gate.id})`);
+          span.innerText = gate.name;
+
+          gateItem.appendChild(span);
+          controllers.appendChild(gateItem);
+        });
+      }
+
+      async function gateSignal(gate) {
+        changeStatus(144);
+
+        const response = await fetch(`/gate?gate=${gate}`, {
+          method: 'POST',
+          headers: new Headers({
+            Authorization: pass,
+          }),
+        });
+
+        changeStatus(response.status);
+      }
+
+      function changeStatus(code) {
+        function change(text, color) {
+          status.text.innerText = text;
+          status.ball.style.background = color;
+        }
+
+        switch(code) {
+          case 144:
+            change('Esperando', '#808080');
+            break;
+          case 204:
+            change('Sinal enviado', '#04ff00');
+            break;
+          case 401: 
+            change('Senha incorreta', '#ff0000');
+            break;
+          case 404:
+            change('Portão inexistente', '#ff4d00');
+            break;
+          default:
+            change('Erro', '#ff0000');
+        }
+      }
+
+      retrieveGates();
+    </script>
+  </body>
+</html>
