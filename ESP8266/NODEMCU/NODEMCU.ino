@@ -7,9 +7,9 @@
 const char* ssid  = "";
 const char* password = "";
 
-IPAddress ip(192,168,0,90);
-IPAddress subnet(255,255,255,0);
-IPAddress gateway(192,168,0,1);
+IPAddress ip(192, 168, 0, 150);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress gateway(192, 168, 0, 1);
 
 // Gates & Pins
 
@@ -77,9 +77,9 @@ void initializeWiFi(){
 void initializeWebServer(){
   server.on("/", HTTP_GET, handleRoot);
 
-  server.on("/gate", HTTP_GET, handleGateGET);
+  server.on("/gate", HTTP_GET, handleGateIndex);
 
-  server.on("/gate", HTTP_POST, handleGatePOST);
+  server.on("/gate", HTTP_POST, handleGateCreate);
 
   server.onNotFound(handleNotFound);
 
@@ -93,57 +93,64 @@ void sinalize(){
 // Functions of web-server
 
 void handleRoot(){
-  server.send(200, "text/html", indexFile);
+  return server.send(200, "text/html", indexFile);
 }
 
-void handleGateGET(){
-  server.send(200, "application/json", gateInfos);
-}
-
-void handleGatePOST(){
-
-  if (!isAuthenticated(server.header("Authorization"))) {
-    server.send(401);  // Not authenticated
-    return;
-
-  } else if (!server.hasArg("gate") || !isDigit(server.arg("gate").charAt(0))) {
-    server.send(400);  // Bad Request
-    return;
-
-  } else if (!gateExists(server.arg("gate").toInt())) {
-    server.send(404);  // Gate does not exist
-    return;
-
-  } else {
-    server.send(204);  // Sign executed
+void handleGateIndex(){
+  if(!isAuthenticated()) {
+    return server.send(401);  // Not authenticated
   }
 
-  gateSignal(server.arg("gate").toInt());
+  return server.send(200, "application/json", gateInfos);
+}
+
+void handleGateCreate(){
+  if (!isAuthenticated()) {
+    return server.send(401);  // Not authenticated
+
+  } else if (!server.hasArg("gate") || !isDigit(server.arg("gate").charAt(0))) {
+    return server.send(400);  // Bad Request
+
+  } else if (!gateExists()) {
+    return server.send(404);  // Gate does not exist
+
+  }
+
+  gateSignal();
+  return server.send(204);  // Sign executed
 }
 
 void handleNotFound(){
-  server.send(404, "text/plain", "404");
+  return server.send(404, "text/plain", "404");
 }
 
 // Functions
 
-bool isAuthenticated(String pw){
-  if (pw == passwordGate){
+bool isAuthenticated(){
+  const String authorization = server.header("Authorization");
+
+  if (authorization == passwordGate){
     return true;
   }
+
   return false;
 }
 
-bool gateExists(int gateID){
+bool gateExists(){
+  const int gateID = server.arg("gate").toInt();
+
   for (int i = 0; i < nog; i++){
     if (gates[i] == gateID) {
       return true;
     }
   }
+
   return false;
 }
 
-void gateSignal(int gate){
+void gateSignal(){
+  const int gate = server.arg("gate").toInt();
+
   digitalWrite(gate, LOW);
   delay(200);
   digitalWrite(gate, HIGH);
