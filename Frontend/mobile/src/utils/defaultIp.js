@@ -1,1 +1,0 @@
-export default "192.168.0.90";

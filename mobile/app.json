@@ -2,18 +2,10 @@
   "expo": {
     "name": "Gate Remote",
     "slug": "Gate-Remote",
-    "privacy": "public",
-    "backgroundColor": "#000000",
-    "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "primaryColor": "#000000",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
