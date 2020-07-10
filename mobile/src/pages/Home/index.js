@@ -50,7 +50,10 @@ function Home({ isFocused }) {
         data={controls}
         keyExtractor={(control) => String(control.id)}
         renderItem={({ item: control }) => (
-          <Gate onPress={() => {}}>
+          <Gate
+            onPress={() => {}}
+            onLongPress={() => navigation.navigate('Edit', { control })}
+          >
             <AntDesign name="home" color="#fff" size={36} />
 
             <Name numberOfLines={1}>{control.name}</Name>
