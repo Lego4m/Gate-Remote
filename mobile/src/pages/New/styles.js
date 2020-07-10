@@ -7,7 +7,12 @@ import { RectButton } from 'react-native-gesture-handler';
 export const Container = styled.View`
   flex: 1;
   background: #000000;
-  padding: ${Constants.statusBarHeight}px 20px 20px 20px;
+  padding-top: ${Constants.statusBarHeight}px;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+  padding: 0 20px 20px;
   justify-content: space-between;
 `;
 

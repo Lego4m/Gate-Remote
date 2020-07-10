@@ -10,7 +10,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import PropTypes from 'prop-types';
 
-import { Container, Header, Title, GatesList, Gate, Name } from './styles';
+import { Header, HeaderTitle } from '../../Components/Header';
+
+import { Container, GatesList, Gate, Name } from './styles';
 
 function Home({ isFocused }) {
   const navigation = useNavigation();
@@ -34,7 +36,7 @@ function Home({ isFocused }) {
   return (
     <Container>
       <Header>
-        <Title>Gate Remote</Title>
+        <HeaderTitle>Gate Remote</HeaderTitle>
 
         <TouchableOpacity
           onPress={() => navigation.navigate('New')}

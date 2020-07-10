@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 
-import { Alert } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { Feather } from '@expo/vector-icons';
+
 import AsyncStorage from '@react-native-community/async-storage';
+
+import { Header, HeaderTitle } from '../../Components/Header';
 
 import {
   Container,
+  Content,
   Inputs,
   Label,
   Input,
@@ -53,41 +58,53 @@ export default function New() {
 
   return (
     <Container>
-      <Inputs>
-        <Label>Nome do controle</Label>
-        <Input
-          placeholder="Insira o nome"
-          maxLength={30}
-          value={name}
-          onChangeText={setName}
-        />
+      <Header>
+        <HeaderTitle>Criar controle</HeaderTitle>
 
-        <Label>Endereço</Label>
-        <Input
-          placeholder="Insira o endereço"
-          keyboardType="numeric"
-          value={address}
-          onChangeText={setAddress}
-        />
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.8}
+        >
+          <Feather name="x" color="#fff" size={32} />
+        </TouchableOpacity>
+      </Header>
 
-        <Label>Senha</Label>
-        <Input
-          secureTextEntry
-          placeholder="Insira a senha"
-          value={password}
-          onChangeText={setPassword}
-        />
-      </Inputs>
+      <Content>
+        <Inputs>
+          <Label>Nome do controle</Label>
+          <Input
+            placeholder="Insira o nome"
+            maxLength={30}
+            value={name}
+            onChangeText={setName}
+          />
 
-      <Buttons>
-        <Button onPress={() => navigation.goBack()}>
-          <ButtonText>Cancelar</ButtonText>
-        </Button>
+          <Label>Endereço</Label>
+          <Input
+            placeholder="Insira o endereço"
+            value={address}
+            onChangeText={setAddress}
+          />
 
-        <Button onPress={handleCreateControl}>
-          <ButtonText>Salvar</ButtonText>
-        </Button>
-      </Buttons>
+          <Label>Senha</Label>
+          <Input
+            secureTextEntry
+            placeholder="Insira a senha"
+            value={password}
+            onChangeText={setPassword}
+          />
+        </Inputs>
+
+        <Buttons>
+          <Button onPress={() => navigation.goBack()}>
+            <ButtonText>Cancelar</ButtonText>
+          </Button>
+
+          <Button onPress={handleCreateControl}>
+            <ButtonText>Salvar</ButtonText>
+          </Button>
+        </Buttons>
+      </Content>
     </Container>
   );
 }
