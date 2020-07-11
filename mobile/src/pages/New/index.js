@@ -8,12 +8,13 @@ import { Feather } from '@expo/vector-icons';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import Container from '../../Components/Container';
 import { Header, HeaderTitle } from '../../Components/Header';
 
 import {
-  Container,
   Content,
   Inputs,
+  InputBlock,
   Label,
   Input,
   Buttons,
@@ -71,28 +72,34 @@ export default function New() {
 
       <Content>
         <Inputs>
-          <Label>Nome do controle</Label>
-          <Input
-            placeholder="Insira o nome"
-            maxLength={30}
-            value={name}
-            onChangeText={setName}
-          />
+          <InputBlock>
+            <Label>Nome do controle</Label>
+            <Input
+              placeholder="Insira o nome"
+              maxLength={30}
+              value={name}
+              onChangeText={setName}
+            />
+          </InputBlock>
 
-          <Label>Endereço</Label>
-          <Input
-            placeholder="Insira o endereço"
-            value={address}
-            onChangeText={setAddress}
-          />
+          <InputBlock>
+            <Label>Endereço</Label>
+            <Input
+              placeholder="Insira o endereço"
+              value={address}
+              onChangeText={setAddress}
+            />
+          </InputBlock>
 
-          <Label>Senha</Label>
-          <Input
-            secureTextEntry
-            placeholder="Insira a senha"
-            value={password}
-            onChangeText={setPassword}
-          />
+          <InputBlock>
+            <Label>Senha</Label>
+            <Input
+              secureTextEntry
+              placeholder="Insira a senha"
+              value={password}
+              onChangeText={setPassword}
+            />
+          </InputBlock>
         </Inputs>
 
         <Buttons>

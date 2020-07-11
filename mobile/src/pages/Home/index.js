@@ -10,9 +10,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import PropTypes from 'prop-types';
 
+import Container from '../../Components/Container';
 import { Header, HeaderTitle } from '../../Components/Header';
 
-import { Container, ControlsList, Control, Name } from './styles';
+import { ControlsList, Control, Name } from './styles';
 
 function Home({ isFocused }) {
   const navigation = useNavigation();

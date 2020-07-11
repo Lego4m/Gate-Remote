@@ -1,14 +1,6 @@
 import styled from 'styled-components/native';
 
-import Constants from 'expo-constants';
-
 import { RectButton } from 'react-native-gesture-handler';
-
-export const Container = styled.View`
-  flex: 1;
-  background: #000000;
-  padding-top: ${Constants.statusBarHeight}px;
-`;
 
 export const StatusBar = styled.View`
   background: #333;
@@ -28,7 +20,7 @@ export const GatesList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   numColumns: 2,
   contentContainerStyle: {
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: 'center',
   },
 })``;

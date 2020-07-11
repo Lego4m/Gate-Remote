@@ -6,14 +6,9 @@ import { AntDesign } from '@expo/vector-icons';
 
 import axios from 'axios';
 
-import {
-  Container,
-  StatusBar,
-  StatusText,
-  GatesList,
-  Gate,
-  Name,
-} from './styles';
+import Container from '../../Components/Container';
+
+import { StatusBar, StatusText, GatesList, Gate, Name } from './styles';
 
 export default function Control() {
   const route = useRoute();

@@ -1,14 +1,6 @@
 import styled from 'styled-components/native';
 
-import Constants from 'expo-constants';
-
 import { RectButton } from 'react-native-gesture-handler';
-
-export const Container = styled.View`
-  flex: 1;
-  background: #000000;
-  padding-top: ${Constants.statusBarHeight}px;
-`;
 
 export const Content = styled.View`
   flex: 1;
@@ -16,10 +8,13 @@ export const Content = styled.View`
   justify-content: space-between;
 `;
 
-export const Inputs = styled.View``;
+export const Inputs = styled.ScrollView``;
+
+export const InputBlock = styled.View`
+  margin: 10px 0;
+`;
 
 export const Label = styled.Text`
-  margin-top: 20px;
   color: #999;
 `;
 
