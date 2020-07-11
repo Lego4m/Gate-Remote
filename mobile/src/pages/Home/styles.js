@@ -8,11 +8,11 @@ export const Container = styled.View`
   padding-top: ${Constants.statusBarHeight}px;
 `;
 
-export const GatesList = styled.FlatList.attrs({
+export const ControlsList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
 })``;
 
-export const Gate = styled.TouchableOpacity.attrs({
+export const Control = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8,
 })`
   border-bottom-color: #4d4d4d;

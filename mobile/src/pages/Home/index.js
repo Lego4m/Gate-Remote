@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 import { Header, HeaderTitle } from '../../Components/Header';
 
-import { Container, GatesList, Gate, Name } from './styles';
+import { Container, ControlsList, Control, Name } from './styles';
 
 function Home({ isFocused }) {
   const navigation = useNavigation();
@@ -46,18 +46,18 @@ function Home({ isFocused }) {
         </TouchableOpacity>
       </Header>
 
-      <GatesList
+      <ControlsList
         data={controls}
         keyExtractor={(control) => String(control.id)}
         renderItem={({ item: control }) => (
-          <Gate
-            onPress={() => {}}
+          <Control
+            onPress={() => navigation.navigate('Control', { control })}
             onLongPress={() => navigation.navigate('Edit', { control })}
           >
             <AntDesign name="home" color="#fff" size={36} />
 
             <Name numberOfLines={1}>{control.name}</Name>
-          </Gate>
+          </Control>
         )}
       />
     </Container>
