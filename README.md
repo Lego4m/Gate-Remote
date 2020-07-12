@@ -21,7 +21,7 @@ Abra o sketch referente a sua placa em [ESP8266](ESP8266)
 * Mude as configurações dos portões no tópico *Gates & Pins*;
 ***
 
-Copie os arquivos [index.html e gates.json](Frontend/web) para dentro de "ESP8266/suaplaca/data".
+Copie os arquivos [index.html e gates.json](web) para dentro de "ESP8266/suaplaca/data".
 
 * Altere os nomes dos portões dentro de gates.json
 * Use a ferramenta ESP8266 sketch Data Upload;
@@ -30,8 +30,8 @@ Copie os arquivos [index.html e gates.json](Frontend/web) para dentro de "ESP826
 
 #### Mobile
 
-O aplicativo é construído com o EXPO.
+O aplicativo é construído com o Expo.
 
 Execute ```npm install .``` e depois ```npm start``` para iniciar o aplicativo.
 
-<img src="preview/home.png" alt="preview home" height="400" width="184"/> <img src="preview/settings.png" alt="preview settings" height="400" width="184"/>
+<img src="preview/home.png" alt="preview home" height="400" width="184"/> <img src="preview/new.png" alt="preview new" height="400" width="184"/> <img src="preview/control.png" alt="preview control" height="400" width="184"/>
